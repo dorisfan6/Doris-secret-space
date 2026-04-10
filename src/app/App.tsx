@@ -166,7 +166,7 @@ export default function App() {
               
               {/* Small decorative tape */}
               <div 
-                className="absolute -top-1.5 -right-1.5 w-10 h-4 bg-amber-100/60 border border-amber-200/30 shadow-sm"
+                className="absolute -top-1.5 -right-1.5 w-26 h-10 bg-amber-100/60 border border-amber-200/30 shadow-sm"
                 style={{
                   rotate: 25,
                   clipPath: "polygon(5% 20%, 95% 22%, 93% 78%, 3% 76%)",
