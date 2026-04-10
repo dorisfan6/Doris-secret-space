@@ -1,6 +1,6 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { Code2, Sparkles, Zap, Gamepad2, Shapes, Wand2 } from "lucide-react";
+import { Code2, Sparkles, Zap, Gamepad2, Shapes, Wand2, Camera } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 const experiments = [
@@ -43,6 +43,16 @@ const experiments = [
     tags: ["Vibe Coding", "API", "Database"],
     year: "2026",
     link: "https://skin-science-bot.lovable.app/"
+  },
+  {
+    id: 5,
+    title: "Socail Media Data Analysis in i-dle",
+    description: "Online volume of mention analysis on K-pop group i-dle's performance, including benchmark comparison and ten-year overview",
+    icon: Camera,
+    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Screenshot%202026-04-10%20at%2012.31.24%20PM.png",
+    tags: ["Data Analysis", "Brandwatch", "Creative Direction"],
+    year: "2025",
+    link: "https://tulane.box.com/s/1wzj6d9ygnq7nprue3tle52vofifrilu"
   },
 ];
 

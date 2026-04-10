@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import paperBrushAsset from "figma:asset/3083ebf8141e014a5730b77c2365dd3527297f1e.png";
-import aboutMeAsset from "figma:asset/a85c12079127ccb76a6ba62200070f92fd9d26eb.png";
+const paperBrushAsset = "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/tape@3x.png";
+const aboutMeAsset = "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/pap@3x.png";
 
 export function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -69,7 +69,7 @@ export function Hero() {
 
       {/* Almost invisible tea cup stain - very subtle */}
       <div 
-        className="absolute top-[35%] right-[15%] w-32 h-32 rounded-full opacity-[0.03]"
+        className="absolute top-[35%] right-[15%] w-32 h-32 rounded-full opacity-[0.6]"
         style={{
           background: 'radial-gradient(circle, rgba(139, 104, 65, 0.4) 0%, rgba(139, 104, 65, 0.2) 40%, transparent 70%)',
           filter: 'blur(8px)',
@@ -79,7 +79,7 @@ export function Hero() {
       {/* HYPER-REALISTIC DRIED PEARLS scattered */}
       {/* Pearl 1 - top left area */}
       <div 
-        className="absolute top-[22%] left-[28%] w-3 h-3 rounded-full"
+        className="absolute top-[22%] left-[28%] w-3 h-3 rounded-full opacity-[0.03]"
         style={{
           background: 'radial-gradient(circle at 30% 30%, #FFFEF8, #F5F3ED 40%, #E8E4DB 70%, #C9C5BC)',
           boxShadow: `
@@ -91,7 +91,7 @@ export function Hero() {
       />
       {/* Pearl 2 - near center */}
       <div 
-        className="absolute top-[48%] left-[42%] w-2.5 h-2.5 rounded-full"
+        className="absolute top-[48%] left-[42%] w-2.5 h-2.5 rounded-full opacity-[0.03]"
         style={{
           background: 'radial-gradient(circle at 35% 35%, #FFFEFA, #F7F5F0 45%, #EBE8E0 75%, #CDC9C0)',
           boxShadow: `
@@ -103,7 +103,7 @@ export function Hero() {
       />
       {/* Pearl 3 - bottom right */}
       <div 
-        className="absolute bottom-[30%] right-[35%] w-3.5 h-3.5 rounded-full"
+        className="absolute bottom-[30%] right-[35%] w-3.5 h-3.5 rounded-full opacity-[0.03]"
         style={{
           background: 'radial-gradient(circle at 28% 28%, #FFFFFF, #F8F6F1 38%, #ECE9E2 68%, #D1CEC5)',
           boxShadow: `
@@ -654,7 +654,7 @@ export function Hero() {
 
           {/* Scroll indicator */}
           <motion.div
-            className="absolute bottom-16 left-1/2 -translate-x-1/2"
+            className="absolute bottom-16 left-1/2 -translate-x-1/2 opacity-[0.03]"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           >
