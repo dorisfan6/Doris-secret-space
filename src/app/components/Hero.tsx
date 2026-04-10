@@ -153,7 +153,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('education')}
         data-cursor="hover"
-        className="absolute top-24 left-16 cursor-pointer group"
+        className="absolute top-24 left-26 cursor-pointer group"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-8, 8]),
           y: useTransform(mouseYSpring, [-1, 1], [-6, 6]),
@@ -331,7 +331,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('contact')}
         data-cursor="hover"
-        className="absolute top-16 right-12 cursor-pointer group"
+        className="absolute top-18 right-32 cursor-pointer group"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-10, 10]),
           y: useTransform(mouseYSpring, [-1, 1], [-8, 8]),
@@ -408,7 +408,7 @@ export function Hero() {
               </div>
               
               {/* Contact image - full height with blue overlay */}
-              <div className="absolute left-4 right-4 top-16 bottom-16">
+              <div className="absolute left-4 right-4 top-10 bottom-16">
                 <div 
                   className="w-full h-full overflow-hidden"
                   style={{
@@ -604,12 +604,12 @@ export function Hero() {
         >
           {/* Hero Title - Oversized bespoke calligraphic script */}
           <motion.h1 
-            className="text-[7rem] md:text-[9rem] lg:text-[11rem] mb-12 tracking-tight cursor-pointer leading-none"
+            className="text-[3rem] md:text-[6rem] lg:text-[8rem] mb-12 tracking-tight cursor-pointer leading-none"
             style={{ 
               rotateX,
               rotateY,
               transformStyle: "preserve-3d",
-              fontFamily: "'Caveat', cursive",
+              fontFamily: "'Indie Flower', cursive",
               color: '#2C2418',
               filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15))',
             }}
