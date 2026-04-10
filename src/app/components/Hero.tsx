@@ -38,6 +38,50 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+      {/* Decorative paper scraps floating in background */}
+      <motion.div
+        className="absolute top-20 right-[15%] w-24 h-32 bg-amber-100/60 shadow-md"
+        style={{
+          clipPath: "polygon(8% 2%, 95% 5%, 98% 92%, 5% 95%)",
+          rotate: 25,
+        }}
+        animate={{
+          y: [0, -15, 0],
+          rotate: [25, 30, 25],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      
+      <motion.div
+        className="absolute bottom-32 left-[12%] w-28 h-28 bg-stone-200/50 shadow-md"
+        style={{
+          clipPath: "polygon(5% 8%, 92% 5%, 95% 88%, 8% 92%)",
+          rotate: -15,
+        }}
+        animate={{
+          y: [0, 20, 0],
+          rotate: [-15, -20, -15],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Decorative tape pieces */}
+      <div
+        className="absolute top-[30%] right-[8%] w-20 h-8 bg-amber-200/40 shadow-sm"
+        style={{
+          rotate: 45,
+          clipPath: "polygon(2% 20%, 98% 18%, 96% 82%, 1% 80%)",
+        }}
+      />
+
       {/* Newspaper/Magazine Cutout Stickers - Clickable Links */}
       
       {/* Education Sticker - Top Left */}
@@ -52,6 +96,9 @@ export function Hero() {
         whileHover={{ scale: 1.15, rotate: 8, z: 10 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* White sticker border */}
+        <div className="absolute -inset-2 bg-white shadow-lg" style={{ clipPath: "polygon(4% 0%, 100% 1%, 99% 96%, 1% 99%)" }} />
+        
         <motion.div
           className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_8px_20px_rgba(0,0,0,0.25)] overflow-hidden"
           animate={{ 
@@ -81,9 +128,18 @@ export function Hero() {
             </div>
           </div>
         </motion.div>
+        
+        {/* Decorative tape on sticker */}
+        <div
+          className="absolute -top-1 right-4 w-12 h-5 bg-amber-100/60 shadow-sm"
+          style={{
+            rotate: -8,
+            clipPath: "polygon(3% 25%, 97% 20%, 95% 78%, 2% 75%)",
+          }}
+        />
       </motion.button>
 
-      {/* Work Experience Sticker - Top Right */}
+      {/* Work Experience Sticker - Top Right (SMALLER) */}
       <motion.button
         onClick={() => scrollToSection('projects')}
         data-cursor="hover"
@@ -95,8 +151,11 @@ export function Hero() {
         whileHover={{ scale: 1.15, rotate: -8, z: 10 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* White sticker border */}
+        <div className="absolute -inset-1.5 bg-white shadow-md" style={{ clipPath: "polygon(1% 4%, 97% 0%, 100% 99%, 7% 96%)" }} />
+        
         <motion.div
-          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_8px_20px_rgba(0,0,0,0.25)] overflow-hidden"
+          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_6px_16px_rgba(0,0,0,0.2)] overflow-hidden"
           animate={{ 
             rotate: [3, 6, 3],
             y: [0, -10, 0]
@@ -109,25 +168,34 @@ export function Hero() {
           }}
           style={{ 
             transformOrigin: "center", 
-            filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))",
+            filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))",
             clipPath: "polygon(2% 5%, 95% 0%, 100% 98%, 8% 95%)"
           }}
         >
-          <div className="relative w-36 h-36 overflow-hidden">
+          <div className="relative w-28 h-28 overflow-hidden">
             <ImageWithFallback
               src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/ChatGPT%20Image%20Mar%2026,%202026,%2001_44_20%20PM.png"
               alt="Work Experience"
               className="w-full h-full object-cover sepia-[0.3] contrast-110"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-amber-50/40 to-transparent mix-blend-overlay" />
-            <div className="absolute bottom-0 left-0 right-0 bg-stone-900/80 backdrop-blur-sm px-2 py-2">
-              <p className="text-white text-xs font-bold tracking-wide uppercase text-center">Work</p>
+            <div className="absolute bottom-0 left-0 right-0 bg-stone-900/80 backdrop-blur-sm px-2 py-1.5">
+              <p className="text-white text-[10px] font-bold tracking-wide uppercase text-center">Work</p>
             </div>
           </div>
         </motion.div>
+        
+        {/* Decorative tape on sticker */}
+        <div
+          className="absolute top-2 left-1 w-10 h-4 bg-amber-100/60 shadow-sm"
+          style={{
+            rotate: 12,
+            clipPath: "polygon(2% 22%, 98% 25%, 96% 75%, 3% 72%)",
+          }}
+        />
       </motion.button>
 
-      {/* Portfolio Sticker - Bottom Middle (HIGHLIGHTED) */}
+      {/* Portfolio Sticker - Bottom Middle (HIGHLIGHTED - LARGEST) */}
       <motion.button
         onClick={() => scrollToSection('experiments')}
         data-cursor="hover"
@@ -139,8 +207,11 @@ export function Hero() {
         whileHover={{ scale: 1.15, rotate: 7, z: 10 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* White sticker border - Thicker for emphasis */}
+        <div className="absolute -inset-3 bg-white shadow-xl" style={{ clipPath: "polygon(5% 1%, 99% 3%, 97% 98%, 0% 96%)" }} />
+        
         <motion.div
-          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_8px_20px_rgba(0,0,0,0.25)] overflow-hidden"
+          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_10px_24px_rgba(0,0,0,0.28)] overflow-hidden"
           animate={{ 
             rotate: [-2, -4, -2],
             y: [0, -7, 0]
@@ -153,22 +224,38 @@ export function Hero() {
           }}
           style={{ 
             transformOrigin: "center", 
-            filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))",
+            filter: "drop-shadow(0 5px 10px rgba(0,0,0,0.18))",
             clipPath: "polygon(6% 2%, 100% 4%, 96% 100%, 0% 95%)"
           }}
         >
-          <div className="relative w-36 h-36 overflow-hidden">
+          <div className="relative w-44 h-44 overflow-hidden">
             <ImageWithFallback
               src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/ChatGPT%20Image%20Mar%2026,%202026,%2001_36_56%20PM.png"
               alt="Portfolio"
               className="w-full h-full object-cover sepia-[0.3] contrast-110"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-amber-50/40 to-transparent mix-blend-overlay" />
-            <div className="absolute bottom-0 left-0 right-0 bg-stone-900/80 backdrop-blur-sm px-3 py-2">
+            <div className="absolute bottom-0 left-0 right-0 bg-stone-900/85 backdrop-blur-sm px-3 py-2.5">
               <p className="text-white text-sm font-bold tracking-wide uppercase text-center">Portfolio</p>
             </div>
           </div>
         </motion.div>
+        
+        {/* Double tape cross for emphasis */}
+        <div
+          className="absolute -top-2.5 left-1/4 w-18 h-6 bg-amber-100/70 shadow-sm"
+          style={{
+            rotate: -5,
+            clipPath: "polygon(3% 20%, 97% 22%, 95% 78%, 2% 76%)",
+          }}
+        />
+        <div
+          className="absolute -top-2.5 right-1/4 w-18 h-6 bg-amber-100/70 shadow-sm"
+          style={{
+            rotate: 5,
+            clipPath: "polygon(2% 24%, 98% 20%, 96% 76%, 3% 80%)",
+          }}
+        />
       </motion.button>
       
       {/* About Me Sticker - Bottom Left */}
@@ -183,6 +270,9 @@ export function Hero() {
         whileHover={{ scale: 1.15, rotate: -6, z: 10 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* White sticker border */}
+        <div className="absolute -inset-2 bg-white shadow-lg" style={{ clipPath: "polygon(2% 4%, 98% 0%, 100% 95%, 4% 99%)" }} />
+        
         <motion.div
           className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_8px_20px_rgba(0,0,0,0.25)] overflow-hidden"
           animate={{ 
@@ -212,9 +302,18 @@ export function Hero() {
             </div>
           </div>
         </motion.div>
+        
+        {/* Decorative tape on corner */}
+        <div
+          className="absolute bottom-2 right-3 w-12 h-5 bg-amber-100/60 shadow-sm"
+          style={{
+            rotate: -15,
+            clipPath: "polygon(3% 23%, 97% 25%, 95% 77%, 2% 73%)",
+          }}
+        />
       </motion.button>
       
-      {/* Contact Me Sticker - Bottom Right */}
+      {/* Contact Me Sticker - Bottom Right (SMALLER) */}
       <motion.button
         onClick={() => scrollToSection('contact')}
         data-cursor="hover"
@@ -226,8 +325,11 @@ export function Hero() {
         whileHover={{ scale: 1.15, rotate: 10, z: 10 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* White sticker border */}
+        <div className="absolute -inset-1.5 bg-white shadow-md" style={{ clipPath: "polygon(7% 1%, 99% 4%, 96% 98%, 0% 93%)" }} />
+        
         <motion.div
-          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_8px_20px_rgba(0,0,0,0.25)] overflow-hidden"
+          className="relative bg-[#f9f6ed] p-0 rounded-none shadow-[0_6px_16px_rgba(0,0,0,0.2)] overflow-hidden"
           animate={{ 
             rotate: [-4, -7, -4],
             y: [0, -12, 0]
@@ -240,11 +342,11 @@ export function Hero() {
           }}
           style={{ 
             transformOrigin: "center", 
-            filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.15))",
+            filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))",
             clipPath: "polygon(8% 2%, 98% 5%, 95% 100%, 0% 92%)"
           }}
         >
-          <div className="relative w-32 h-32 overflow-hidden">
+          <div className="relative w-28 h-28 overflow-hidden">
             <ImageWithFallback
               src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/fan.jpg"
               alt="Contact Me"
@@ -252,10 +354,19 @@ export function Hero() {
             />
             <div className="absolute inset-0 bg-gradient-to-br from-amber-50/40 to-transparent mix-blend-overlay" />
             <div className="absolute bottom-0 left-0 right-0 bg-stone-900/80 backdrop-blur-sm px-2 py-1.5">
-              <p className="text-white text-xs font-bold tracking-wide uppercase text-center">Contact Me</p>
+              <p className="text-white text-[10px] font-bold tracking-wide uppercase text-center">Contact Me</p>
             </div>
           </div>
         </motion.div>
+        
+        {/* Decorative vertical tape */}
+        <div
+          className="absolute top-1/4 -right-0.5 w-4 h-12 bg-amber-100/60 shadow-sm"
+          style={{
+            rotate: 85,
+            clipPath: "polygon(20% 2%, 78% 3%, 80% 97%, 22% 98%)",
+          }}
+        />
       </motion.button>
       
       {/* Main content */}
@@ -265,16 +376,6 @@ export function Hero() {
           animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 30 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.div 
-            className="inline-block mb-8"
-            whileHover={{ scale: 1.05, y: -2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <span className="text-sm tracking-wider text-stone-700 uppercase bg-white/40 backdrop-blur-sm px-5 py-2 rounded-full border border-stone-300/50 shadow-sm" style={{ fontFamily: "'Caveat', cursive", fontSize: '18px' }}>
-              Digital Storyteller
-            </span>
-          </motion.div>
-          
           <motion.h1 
             className="text-7xl md:text-8xl lg:text-9xl mb-6 text-stone-900 tracking-tight cursor-pointer"
             style={{ 
@@ -291,11 +392,11 @@ export function Hero() {
           </motion.h1>
           
           <motion.p
-            className="text-2xl md:text-3xl text-stone-600 mb-14 max-w-2xl mx-auto leading-relaxed cursor-pointer"
+            className="text-lg md:text-xl text-stone-600 mb-14 max-w-2xl mx-auto leading-relaxed cursor-pointer font-light italic"
             initial={{ opacity: 0 }}
             animate={{ opacity: mounted ? 1 : 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            style={{ fontFamily: "'Architects Daughter', cursive" }}
+            style={{ fontFamily: "'Georgia', serif" }}
             whileHover={{ scale: 1.05 }}
             data-cursor="hover"
           >
