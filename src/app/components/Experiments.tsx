@@ -9,7 +9,7 @@ const experiments = [
     title: "Music Video Creation",
     description: "Wrote, direct and film the music video for artist C-Sky's new single 'Daisy'",
     icon: Sparkles,
-    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Timeline%2042_00108828.png",
+    image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/Timeline%2042_00108828.png",
     tags: ["DaVinci", "Camera Operation", "Directing"],
     year: "2026",
     link: "https://vimeo.com/1180991187"
@@ -19,7 +19,7 @@ const experiments = [
     title: "APP UI Design ",
     description: "Create prototype for a socialized App, design the UI",
     icon: Wand2,
-    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Screenshot%202026-04-07%20at%205.48.34%20PM.png",
+    image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen4.png",
     tags: ["Figma", "Adobe Illustrator"],
     year: "2025",
     link: "https://www.figma.com/proto/hUkHQjzmgd9mDVomwECzr6/Interactive-Project?node-id=2001-2&p=f&t=JMv9vEwAuo3Rv5aX-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2001%3A2"
@@ -29,7 +29,7 @@ const experiments = [
     title: "Atomic Tango",
     description: "Producer, Creative Advisor and Editor for USC professor Freddy Tran Nager's social media account",
     icon: Code2,
-    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Screenshot%202026-04-09%20at%201.27.33%20PM.png",
+    image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen3.png",
     tags: ["Editing", "Producing", "Directing"],
     year: "2024",
     link: "https://xhslink.com/m/15cESrWTPV4"
@@ -39,7 +39,7 @@ const experiments = [
       title: "Website Development",
     description: "Build a website about skincare research",
     icon: Shapes,
-    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Screenshot%202026-04-09%20at%201.50.45%20PM.png",
+    image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen2.png",
     tags: ["Vibe Coding", "API", "Database"],
     year: "2026",
     link: "https://skin-science-bot.lovable.app/"
@@ -49,7 +49,7 @@ const experiments = [
     title: "Socail Media Data Analysis in i-dle",
     description: "Online volume of mention analysis on K-pop group i-dle's performance, including benchmark comparison and ten-year overview",
     icon: Camera,
-    image: "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Screenshot%202026-04-10%20at%2012.31.24%20PM.png",
+    image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen1.png",
     tags: ["Data Analysis", "Brandwatch", "Creative Direction"],
     year: "2025",
     link: "https://tulane.box.com/s/1wzj6d9ygnq7nprue3tle52vofifrilu"

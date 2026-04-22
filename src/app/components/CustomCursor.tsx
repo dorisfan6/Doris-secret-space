@@ -85,7 +85,7 @@ export function CustomCursor() {
           }}
         >
           <img
-    src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Untitled_Artwork.png"
+    src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/Untitled_Artwork.png"
     alt=""
     className="w-60 h-60 object-contain select-none pointer-events-none"
     draggable={false}

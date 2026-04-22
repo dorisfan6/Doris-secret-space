@@ -110,7 +110,7 @@ export function About() {
                   className="p-6"
                 >
                   <ImageWithFallback
-                    src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/01.PNG"
+                    src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/01(1).PNG"
                     alt="Creative workspace"
                     className="w-full h-[480px] object-cover"
                   />

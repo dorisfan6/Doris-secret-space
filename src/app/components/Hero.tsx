@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-const paperBrushAsset = "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/tape@3x.png";
-const aboutMeAsset = "https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/pap@3x.png";
+const paperBrushAsset = "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/tape@3x.png";
+const aboutMeAsset = "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/pap3x.png";
 
 export function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -416,7 +416,7 @@ export function Hero() {
                   }}
                 >
                   <ImageWithFallback
-                    src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Gemini_Generated_Image_k4rq32k4rq32k4rq.png"
+                    src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/k4rq32k4rq32k4rq.png"
                     alt="Contact"
                     className="w-full h-full object-cover"
                     style={{
@@ -566,7 +566,7 @@ export function Hero() {
             {/* Window content - portfolio video placeholder */}
             <div className="relative w-full h-full bg-black">
               <ImageWithFallback
-                src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/ChatGPT%20Image%20Mar%2026,%202026,%2003_52_36%20AM.png"
+                src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/fanC1.png"
                 alt="Portfolio"
                 className="w-full h-full object-cover"
               />
