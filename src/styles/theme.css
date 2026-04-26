@@ -58,12 +58,36 @@
   --archive-shadow-card: 0 24px 56px rgba(35, 31, 26, 0.12);
   --archive-shadow-lift: 0 30px 64px rgba(27, 23, 19, 0.16);
   --archive-shadow-dark: 0 34px 80px rgba(0, 0, 0, 0.34);
+  --archive-paper-ivory: #f5efe5;
+  --archive-paper-warm: #ece5da;
+  --archive-warm-gray: #9b9388;
+  --archive-ink-charcoal: #221d19;
+  --archive-stamp-red: #8a4f48;
+  --archive-folder-kraft: #b88e60;
+  --archive-folder-kraft-deep: #8f6a42;
+  --archive-acetate: rgba(255, 255, 255, 0.16);
+  --archive-metal: #8e8a84;
+  --archive-metal-deep: #59554f;
+  --archive-shadow-desk: 0 22px 40px rgba(37, 28, 20, 0.08);
+  --archive-shadow-paper-lift: 0 18px 24px rgba(37, 28, 20, 0.12);
+  --archive-shadow-folder-deep: 0 34px 58px rgba(24, 18, 13, 0.2);
+  --archive-shadow-label: 0 8px 14px rgba(37, 28, 20, 0.09);
+  --archive-light-top-left: inset 1px 1px 0 rgba(255, 255, 255, 0.72);
+  --archive-sleeve-opacity: 0.14;
+  --archive-vellum-opacity: 0.1;
+  --archive-vellum-blur: 0.35px;
+  --archive-photo-border: rgba(77, 64, 52, 0.14);
+  --archive-tape-surface: linear-gradient(180deg, rgba(233, 224, 198, 0.78), rgba(206, 193, 164, 0.46));
+  --archive-folder-tab-surface: linear-gradient(180deg, #c9a26e 0%, #9a7346 100%);
   --archive-paper-texture: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23F5F1E8' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' fill='%23f5f1e8'/%3E%3C/svg%3E");
   --archive-grain-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   --font-display: "Caveat", cursive;
   --font-script: "Kalam", cursive;
   --font-body: "Playfair Display", serif;
   --font-mono: "IBM Plex Mono", monospace;
+  --font-editorial: "Playfair Display", serif;
+  --font-copy: "IBM Plex Serif", serif;
+  --font-hand: "Caveat", cursive;
 }
 
 .dark {
