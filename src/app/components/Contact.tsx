@@ -1,12 +1,6 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { Mail, Linkedin, FileText, Send, ArrowUpRight } from "lucide-react";
-
-import { ArchiveButton } from "./archive/ArchiveButton";
-import { ArchiveCard } from "./archive/ArchiveCard";
-import { PaperPanel } from "./archive/PaperPanel";
-import { SectionHeader } from "./archive/SectionHeader";
-import { TextureOverlay } from "./archive/TextureOverlay";
+import { Mail, Linkedin, FileText, Send, Sparkles } from "lucide-react";
 
 const socialLinks = [
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/yinuofandoris", color: "hover:text-blue-700" },
@@ -21,12 +15,14 @@ export function Contact() {
   const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-transparent px-8 py-32" style={{ position: "relative" }}>
-      <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
-
+    <section ref={ref} className="relative py-32 px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
+      {/* Depth of field background blur */}
+      <div className="absolute inset-0 backdrop-blur-[2px] -z-10" />
+      
+      {/* Soft background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute left-[12%] top-[18%] h-[440px] w-[440px] rounded-full bg-[var(--archive-red-soft)] blur-[120px]"
+          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-amber-200/20 blur-[100px]"
           animate={{
             scale: [1, 1.15, 1],
             x: [0, 30, 0],
@@ -39,7 +35,7 @@ export function Contact() {
           }}
         />
         <motion.div
-          className="absolute bottom-[12%] right-[10%] h-[520px] w-[520px] rounded-full bg-[rgba(56,51,45,0.12)] blur-[130px]"
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-stone-300/20 blur-[100px]"
           animate={{
             scale: [1, 1.2, 1],
             x: [0, -25, 0],
@@ -60,231 +56,232 @@ export function Contact() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <SectionHeader
-            eyebrow="Contact File"
-            title={
-              <>
-                Got an idea
-                <span className="archive-display ml-4 inline-block text-[var(--archive-red)]">for the archive?</span>
-              </>
-            }
-            subtitle="Let's build something thoughtful, tactile, and memorable together."
-          />
+          <motion.div
+            className="inline-flex items-center gap-2 mb-6"
+            animate={{
+              scale: [1, 1.03, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <Sparkles className="text-amber-600 w-5 h-5" />
+            <span className="text-stone-700 tracking-wider uppercase text-sm bg-white/40 backdrop-blur-sm px-5 py-2 rounded-full border border-stone-300/50 shadow-sm" style={{ fontFamily: "'Caveat', cursive", fontSize: '18px' }}>Let's Connect</span>
+            <Sparkles className="text-amber-700 w-5 h-5" />
+          </motion.div>
+
+          <h2 className="text-5xl md:text-7xl text-stone-900 mb-6" style={{ fontFamily: "'Caveat', cursive" }}>
+            Got an idea?
+          </h2>
+          <p className="text-2xl md:text-3xl text-amber-800" style={{ fontFamily: "'Kalam', cursive" }}>
+            Let's create something meaningful together
+          </p>
         </motion.div>
 
+        {/* Main contact card - torn page from magazine */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative group mx-auto max-w-[980px]"
+          className="relative group"
+          style={{ transform: 'rotate(-0.5deg)' }}
         >
+          {/* Soft glow effect */}
           <motion.div
-            className="absolute -inset-6 bg-[var(--archive-accent-soft)] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+            className="absolute -inset-4 bg-amber-200/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
           />
 
-          <div className="absolute left-5 top-8 right-[-12px] h-full rounded-[34px] border border-[var(--archive-line)] bg-[rgba(85,77,69,0.08)] shadow-[var(--archive-shadow-soft)]"
-            style={{ transform: "rotate(1.4deg)" }}
-          />
-
-          <div className="absolute inset-x-14 top-2 z-30 mx-auto h-8 w-44 rounded-b-[16px] border border-[rgba(0,0,0,0.18)] bg-[linear-gradient(180deg,#2d2823,#171411)] shadow-[0_12px_24px_rgba(0,0,0,0.22)]" />
-
-          <PaperPanel
-            className="relative rounded-[34px] border-[var(--archive-line-strong)] px-6 pb-8 pt-14 md:px-12 md:pb-12 md:pt-[4.5rem]"
-            clip="notched"
+          <div 
+            className="relative bg-white p-12 border-2 border-stone-300 shadow-[8px_8px_0px_rgba(0,0,0,0.1),14px_14px_0px_rgba(245,158,11,0.08)]"
+            style={{
+              clipPath: "polygon(1% 0%, 98% 0%, 100% 2%, 100% 97%, 98% 100%, 3% 100%, 0% 98%, 0% 2%)",
+            }}
           >
-            <TextureOverlay variant="paper" opacityClassName="opacity-[0.08]" />
-            <div className="absolute right-8 top-6 z-20 rotate-[7deg] border border-[rgba(138,75,67,0.18)] bg-[rgba(138,75,67,0.08)] px-4 py-1.5">
-              <span className="archive-meta text-[10px] text-[var(--archive-red)]">Open File</span>
-            </div>
+            {/* Paper texture */}
+            <div 
+              className="absolute inset-0 opacity-[0.04] mix-blend-multiply pointer-events-none z-0"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              }}
+            />
 
-            <div className="relative z-10">
-              <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-                <div>
-                  <div className="mb-8 border-b archive-divider pb-6">
-                    <p className="archive-meta text-[11px] text-[var(--archive-red)]">Communication Dossier</p>
-                    <p className="archive-serif mt-4 text-lg leading-8 text-[var(--archive-body)] md:text-xl">
-                      Whether you want to collaborate on a project, shape a visual system, or compare notes on film,
-                      editing, and digital storytelling, I am always open to meaningful correspondence.
-                    </p>
-                  </div>
+            {/* Torn edge at top */}
+            <div 
+              className="absolute top-0 left-0 right-0 h-3 bg-white z-10"
+              style={{
+                clipPath: "polygon(0% 100%, 4% 50%, 8% 80%, 12% 45%, 16% 75%, 20% 50%, 24% 85%, 28% 45%, 32% 70%, 36% 50%, 40% 80%, 44% 45%, 48% 75%, 52% 50%, 56% 80%, 60% 45%, 64% 75%, 68% 50%, 72% 80%, 76% 45%, 80% 75%, 84% 50%, 88% 80%, 92% 45%, 96% 75%, 100% 50%, 100% 0%, 0% 0%)",
+              }}
+            />
 
-                  <motion.div
-                    className="relative mb-8"
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <PaperPanel
-                      variant="vellum"
-                      className="rounded-[22px] border-[var(--archive-line)] p-2 shadow-[var(--archive-shadow-soft)]"
-                    >
-                      <div className="absolute left-6 top-[-12px] h-8 w-16 rotate-[-3deg] border border-[rgba(107,90,71,0.14)] bg-[rgba(107,90,71,0.09)]" />
-                      <div className="relative z-10 flex items-center gap-4 rounded-[18px] border border-[rgba(68,59,49,0.08)] bg-[rgba(255,251,244,0.72)] px-4 py-3">
-                        <Mail className="ml-1 w-5 h-5 text-[var(--archive-red)]" />
-                        <input
-                          type="email"
-                          placeholder="your.email@example.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="archive-script flex-1 bg-transparent py-3 text-lg text-[var(--archive-ink)] placeholder:text-[var(--archive-muted)] outline-none"
-                        />
-                        <ArchiveButton
-                          data-cursor="hover"
-                          whileHover={{
-                            scale: 1.05,
-                            y: -1,
-                            boxShadow: "0 16px 30px rgba(17, 13, 10, 0.22)",
-                          }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <span>Get in Touch</span>
-                          <Send className="w-4 h-4" />
-                        </ArchiveButton>
-                      </div>
-                    </PaperPanel>
-                  </motion.div>
+            <p className="text-stone-700 text-xl mb-8 text-center leading-relaxed font-light relative z-10" style={{ fontFamily: "'Kalam', cursive" }}>
+              Whether you want to collaborate on a project, discuss design, or simply say hello —{" "}
+              <span className="text-amber-800 font-normal">I'm always up for meaningful conversations</span>.
+            </p>
 
-                  <div className="relative mb-7">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t archive-divider border-dashed"></div>
-                    </div>
-                    <div className="relative flex justify-center">
-                      <span className="archive-script bg-[var(--archive-paper-strong)] px-4 text-sm text-[var(--archive-muted)]">
-                        or find me on
-                      </span>
-                    </div>
-                  </div>
+            {/* Email input - handwritten form style */}
+            <motion.div
+              className="relative mb-8 z-10"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex items-center gap-4 bg-amber-50/60 p-2 border-2 border-amber-200/70 group-hover:border-amber-300 transition-colors shadow-[3px_3px_0px_rgba(0,0,0,0.08)]"
+                style={{
+                  clipPath: "polygon(1% 0%, 99% 0%, 100% 1%, 100% 99%, 99% 100%, 1% 100%, 0% 99%, 0% 1%)",
+                }}
+              >
+                <Mail className="text-amber-700 ml-4 w-5 h-5" />
+                <input
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 bg-transparent text-stone-800 placeholder:text-stone-400 outline-none py-3 font-light"
+                  style={{ fontFamily: "'Kalam', cursive" }}
+                />
+                <motion.button
+                  data-cursor="hover"
+                  whileHover={{ scale: 1.05, y: -1, boxShadow: "3px_3px_0px_rgba(0,0,0,0.3)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-stone-800 px-6 py-3 text-white font-medium flex items-center gap-2 hover:bg-stone-700 shadow-[2px_2px_0px_rgba(0,0,0,0.25)] transition-all"
+                  style={{
+                    fontFamily: "'Courier New', monospace",
+                    clipPath: "polygon(2% 0%, 98% 0%, 100% 3%, 100% 97%, 98% 100%, 2% 100%, 0% 97%, 0% 3%)",
+                  }}
+                >
+                  <span>Get in Touch</span>
+                  <Send className="w-4 h-4" />
+                </motion.button>
+              </div>
+            </motion.div>
 
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 relative z-10">
-                    {socialLinks.map((social, index) => {
-                      const Icon = social.icon;
-                      return (
-                        <motion.a
-                          key={index}
-                          href={social.href}
-                          target={social.href.startsWith("mailto:") ? undefined : "_blank"}
-                          rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                          data-cursor="hover"
-                          initial={{ opacity: 0, y: 20, rotate: 0 }}
-                          animate={isInView ? {
-                            opacity: 1,
-                            y: 0,
-                            rotate: index % 2 === 0 ? -1.1 : 1.1,
-                          } : {}}
-                          transition={{ delay: 0.4 + index * 0.1 }}
-                          onHoverStart={() => setHoveredSocial(index)}
-                          onHoverEnd={() => setHoveredSocial(null)}
-                          whileHover={{ y: -6, rotate: 0 }}
-                          className="relative"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <ArchiveCard className="h-full rounded-[22px] p-5">
-                            <TextureOverlay variant="paper" opacityClassName="opacity-[0.05]" />
-                            <motion.div
-                              className="absolute inset-0 rounded-[22px] bg-[var(--archive-red-soft)]"
-                              animate={{ opacity: hoveredSocial === index ? 0.55 : 0 }}
-                              transition={{ duration: 0.3 }}
-                            />
-                            <div className="relative z-10 flex h-full flex-col gap-4">
-                              <div className="flex items-start justify-between">
-                                <motion.div
-                                  animate={{
-                                    rotate: hoveredSocial === index ? 10 : 0,
-                                    scale: hoveredSocial === index ? 1.15 : 1,
-                                  }}
-                                  transition={{ duration: 0.4, type: "spring" }}
-                                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--archive-line)] bg-[rgba(255,255,255,0.7)] text-[var(--archive-ink)]"
-                                >
-                                  <Icon className="w-5 h-5" />
-                                </motion.div>
-                                <ArrowUpRight className="w-4 h-4 text-[var(--archive-muted)]" />
-                              </div>
-
-                              <div>
-                                <div className="archive-meta text-[10px]">Channel {String(index + 1).padStart(2, "0")}</div>
-                                <span className="archive-serif mt-2 block text-lg text-[var(--archive-ink)]">
-                                  {social.label}
-                                </span>
-                              </div>
-
-                              {hoveredSocial === index && (
-                                <>
-                                  {[...Array(4)].map((_, i) => (
-                                    <motion.div
-                                      key={i}
-                                      className="absolute h-1 w-1 rounded-full bg-[var(--archive-red)]"
-                                      initial={{ scale: 0, opacity: 1 }}
-                                      animate={{
-                                        scale: [0, 1.5, 0],
-                                        opacity: [1, 0.6, 0],
-                                        x: Math.cos((i * Math.PI) / 2) * 25,
-                                        y: Math.sin((i * Math.PI) / 2) * 25,
-                                      }}
-                                      transition={{
-                                        duration: 1,
-                                        repeat: Infinity,
-                                        delay: i * 0.1,
-                                      }}
-                                      style={{ left: "50%", top: "48%" }}
-                                    />
-                                  ))}
-                                </>
-                              )}
-                            </div>
-                          </ArchiveCard>
-                        </motion.a>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <PaperPanel
-                    variant="vellum"
-                    className="relative rounded-[28px] border-[rgba(68,59,49,0.12)] p-6"
-                  >
-                    <TextureOverlay variant="paper" opacityClassName="opacity-[0.06]" />
-                    <div className="absolute left-6 top-[-8px] h-5 w-24 rotate-[-2deg] border border-[rgba(107,90,71,0.14)] bg-[rgba(107,90,71,0.08)]" />
-                    <div className="relative z-10">
-                      <div className="archive-meta text-[11px] text-[var(--archive-red)]">Desk Notes</div>
-                      <div className="mt-6 space-y-5">
-                        <ArchiveCard tilt="left" className="p-5">
-                          <div className="archive-meta text-[10px]">Preferred Modes</div>
-                          <p className="archive-serif mt-3 text-base leading-7 text-[var(--archive-body)]">
-                            Creative direction, visual systems, film-minded interaction design, and digital storytelling.
-                          </p>
-                        </ArchiveCard>
-                        <ArchiveCard tilt="right" className="p-5">
-                          <div className="archive-meta text-[10px]">Working Tone</div>
-                          <p className="archive-serif mt-3 text-base leading-7 text-[var(--archive-body)]">
-                            Thoughtful, tactile, and cinematic. Built with layered paper, subtle motion, and editorial restraint.
-                          </p>
-                        </ArchiveCard>
-                        <PaperPanel variant="dark" className="rounded-[24px] p-5">
-                          <div className="archive-meta text-[10px] text-stone-400">Archive Stamp</div>
-                          <p className="archive-display mt-4 text-3xl text-stone-100">Open for thoughtful collaborations.</p>
-                          <p className="archive-meta mt-6 text-[10px] text-stone-500">
-                            film / interaction / archive / editorial
-                          </p>
-                        </PaperPanel>
-                      </div>
-                    </div>
-                  </PaperPanel>
-                </div>
+            {/* Divider with handwritten feel */}
+            <div className="relative mb-8 z-10">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t-2 border-dashed border-stone-300"></div>
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-4 text-stone-500 text-sm font-light" style={{ fontFamily: "'Kalam', cursive" }}>or find me on</span>
               </div>
             </div>
-          </PaperPanel>
+
+            {/* Social links - pinned cards */}
+            <div className="grid grid-cols-3 gap-4 relative z-10">{socialLinks.map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    target={social.href.startsWith('mailto:') ? undefined : "_blank"}
+                    rel={social.href.startsWith('mailto:') ? undefined : "noopener noreferrer"}
+                    data-cursor="hover"
+                    initial={{ opacity: 0, y: 20, rotate: 0 }}
+                    animate={isInView ? { 
+                      opacity: 1, 
+                      y: 0,
+                      rotate: (index % 2 === 0 ? -1.5 : 1.5) 
+                    } : {}}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    onHoverStart={() => setHoveredSocial(index)}
+                    onHoverEnd={() => setHoveredSocial(null)}
+                    whileHover={{ y: -6, rotate: 0 }}
+                    className="relative group/social"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <motion.div
+                      className={`flex flex-col items-center gap-3 bg-amber-50/70 p-6 border-2 border-amber-200/70 ${social.color} transition-colors shadow-[3px_3px_0px_rgba(0,0,0,0.1)]`}
+                      style={{
+                        clipPath: "polygon(3% 0%, 97% 0%, 100% 4%, 100% 96%, 97% 100%, 3% 100%, 0% 96%, 0% 4%)",
+                      }}
+                    >
+                      {/* Hover glow */}
+                      <motion.div
+                        className="absolute inset-0 bg-amber-100"
+                        style={{
+                          clipPath: "polygon(3% 0%, 97% 0%, 100% 4%, 100% 96%, 97% 100%, 3% 100%, 0% 96%, 0% 4%)",
+                        }}
+                        animate={{ opacity: hoveredSocial === index ? 0.7 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+
+                      <motion.div
+                        animate={{
+                          rotate: hoveredSocial === index ? 12 : 0,
+                          scale: hoveredSocial === index ? 1.2 : 1,
+                        }}
+                        transition={{ duration: 0.4, type: "spring" }}
+                        className="relative z-10"
+                      >
+                        <Icon className="w-7 h-7" />
+                      </motion.div>
+                      <span className="text-sm font-medium relative z-10" style={{ fontFamily: "'Courier New', monospace" }}>{social.label}</span>
+
+                      {/* Pin/tack effect on top */}
+                      <div 
+                        className="absolute top-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-amber-700 rounded-full shadow-md z-20"
+                      >
+                        <div className="absolute inset-0.5 bg-amber-400 rounded-full" />
+                      </div>
+
+                      {/* Animated dots */}
+                      {hoveredSocial === index && (
+                        <>
+                          {[...Array(4)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              className="absolute w-1 h-1 bg-amber-400 rounded-full"
+                              initial={{ scale: 0, opacity: 1 }}
+                              animate={{
+                                scale: [0, 1.5, 0],
+                                opacity: [1, 0.6, 0],
+                                x: Math.cos((i * Math.PI) / 2) * 25,
+                                y: Math.sin((i * Math.PI) / 2) * 25,
+                              }}
+                              transition={{
+                                duration: 1,
+                                repeat: Infinity,
+                                delay: i * 0.1,
+                              }}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </motion.div>
+                  </motion.a>
+                );
+              })}
+            </div>
+
+            {/* Tape pieces for collage effect */}
+            <div 
+              className="absolute top-[20%] right-[-12px] w-20 h-7 bg-amber-100/50 border border-amber-200/60 backdrop-blur-sm shadow-md z-30"
+              style={{
+                clipPath: "polygon(6% 0%, 94% 0%, 100% 10%, 100% 90%, 94% 100%, 6% 100%, 0% 90%, 0% 10%)",
+                transform: 'rotate(88deg)',
+              }}
+            />
+            <div 
+              className="absolute bottom-[25%] left-[-10px] w-18 h-6 bg-amber-100/50 border border-amber-200/60 backdrop-blur-sm shadow-md z-30"
+              style={{
+                clipPath: "polygon(6% 0%, 94% 0%, 100% 10%, 100% 90%, 94% 100%, 6% 100%, 0% 90%, 0% 10%)",
+                transform: 'rotate(-90deg)',
+              }}
+            />
+          </div>
         </motion.div>
 
+        {/* Footer text - handwritten note */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8, duration: 0.6 }}
           className="mt-16 text-center"
         >
-          <p className="archive-script text-sm text-[var(--archive-muted)] mb-2">
+          <p className="text-stone-500 text-sm mb-2 font-light" style={{ fontFamily: "'Kalam', cursive" }}>
             Designed & crafted with intention by Doris Fan
           </p>
-          <p className="archive-meta text-[10px] text-[var(--archive-muted)]">
+          <p className="text-stone-400 text-xs font-light" style={{ fontFamily: "'Courier New', monospace" }}>
             © 2026 • Built with React, Tailwind, and Motion
           </p>
         </motion.div>
