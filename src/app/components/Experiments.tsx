@@ -146,7 +146,6 @@ export function Experiments() {
   const [hoveredExperiment, setHoveredExperiment] = useState<number | null>(null);
   const [expandedExperiment, setExpandedExperiment] = useState<number | null>(null);
   const activeExperiment = expandedExperiment ?? hoveredExperiment;
-  const [expandedExperiment, setExpandedExperiment] = useState<number | null>(null);
 
   return (
     <section ref={ref} className="relative overflow-hidden bg-transparent px-8 py-32" style={{ position: "relative" }}>
