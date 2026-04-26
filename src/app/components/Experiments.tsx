@@ -1,6 +1,18 @@
-import { motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { Code2, Sparkles, Zap, Gamepad2, Shapes, Wand2, Camera } from "lucide-react";
+import { Camera, Code2, Shapes, Sparkles, Wand2 } from "lucide-react";
+import {
+  ArchiveFolder,
+  BinderSleeve,
+  ClipDetail,
+  DeskSurface,
+  FolderTab,
+  MetadataLabel,
+  PaperInsert,
+  PrintedPhoto,
+  TapeTab,
+  VellumOverlay,
+} from "./archive-objects/primitives";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 const experiments = [
@@ -12,7 +24,7 @@ const experiments = [
     image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/Timeline%2042_00108828.png",
     tags: ["DaVinci", "Camera Operation", "Directing"],
     year: "2026",
-    link: "https://vimeo.com/1180991187"
+    link: "https://vimeo.com/1180991187",
   },
   {
     id: 2,
@@ -22,7 +34,7 @@ const experiments = [
     image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen4.png",
     tags: ["Figma", "Adobe Illustrator"],
     year: "2025",
-    link: "https://www.figma.com/proto/hUkHQjzmgd9mDVomwECzr6/Interactive-Project?node-id=2001-2&p=f&t=JMv9vEwAuo3Rv5aX-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2001%3A2"
+    link: "https://www.figma.com/proto/hUkHQjzmgd9mDVomwECzr6/Interactive-Project?node-id=2001-2&p=f&t=JMv9vEwAuo3Rv5aX-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2001%3A2",
   },
   {
     id: 3,
@@ -32,17 +44,17 @@ const experiments = [
     image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen3.png",
     tags: ["Editing", "Producing", "Directing"],
     year: "2024",
-    link: "https://xhslink.com/m/15cESrWTPV4"
+    link: "https://xhslink.com/m/15cESrWTPV4",
   },
   {
     id: 4,
-      title: "Website Development",
+    title: "Website Development",
     description: "Build a website about skincare research",
     icon: Shapes,
     image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen2.png",
     tags: ["Vibe Coding", "API", "Database"],
     year: "2026",
-    link: "https://skin-science-bot.lovable.app/"
+    link: "https://skin-science-bot.lovable.app/",
   },
   {
     id: 5,
@@ -52,200 +64,118 @@ const experiments = [
     image: "https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/screen1.png",
     tags: ["Data Analysis", "Brandwatch", "Creative Direction"],
     year: "2025",
-    link: "https://tulane.box.com/s/1wzj6d9ygnq7nprue3tle52vofifrilu"
+    link: "https://tulane.box.com/s/1wzj6d9ygnq7nprue3tle52vofifrilu",
   },
 ];
 
-// Varied compositions for each card
-const cardCompositions = [
+const deskLayouts = [
   {
-    clipPath: "polygon(1% 0%, 99% 0%, 100% 2%, 100% 98%, 98% 100%, 1% 100%, 0% 97%)",
-    height: "440px",
-    imageRatio: "58%",
+    baseClassName: "lg:col-span-4 lg:mt-8",
+    openClassName: "lg:col-span-8 lg:mt-8",
+    minHeight: "470px",
+    rotation: -2.2,
+    paperRotation: -1.5,
+    photoRotation: -2.4,
+    tabAlign: "left",
+    tapeA: { top: "18px", left: "22px", rotation: -5 },
+    tapeB: { top: "54%", right: "-8px", rotation: 90 },
+  },
+  {
+    baseClassName: "lg:col-span-3 lg:mt-28",
+    openClassName: "lg:col-span-9 lg:mt-20",
+    minHeight: "500px",
+    rotation: 1.4,
+    paperRotation: 0.8,
+    photoRotation: 1.7,
+    tabAlign: "right",
+    tapeA: { top: "18px", right: "18px", rotation: 4 },
+    tapeB: { left: "-8px", bottom: "104px", rotation: -90 },
+  },
+  {
+    baseClassName: "lg:col-span-5 lg:-mt-8",
+    openClassName: "lg:col-span-8 lg:-mt-8",
+    minHeight: "446px",
     rotation: -0.8,
-    tapes: [
-      { top: "54%", right: "10px", rotation: 88, size: "w-16 h-6" },
-      { bottom: "8px", left: "20%", rotation: 2, size: "w-14 h-5" }
-    ]
+    paperRotation: -0.4,
+    photoRotation: -1.1,
+    tabAlign: "left",
+    tapeA: { top: "18px", left: "24%", rotation: -1 },
+    tapeB: { right: "16%", bottom: "18px", rotation: 2 },
   },
   {
-    clipPath: "polygon(0% 1%, 98% 0%, 100% 2%, 100% 99%, 99% 100%, 2% 100%, 0% 98%)",
-    height: "460px",
-    imageRatio: "52%",
+    baseClassName: "lg:col-span-4 lg:-mt-14",
+    openClassName: "lg:col-span-8 lg:-mt-12",
+    minHeight: "490px",
     rotation: 1.2,
-    tapes: [
-      { top: "48%", left: "-8px", rotation: -92, size: "w-18 h-7" }
-    ]
+    paperRotation: 0.5,
+    photoRotation: 1.4,
+    tabAlign: "right",
+    tapeA: { top: "18px", left: "20px", rotation: -4 },
+    tapeB: { right: "-8px", top: "48%", rotation: 90 },
   },
   {
-    clipPath: "polygon(2% 0%, 100% 0%, 100% 98%, 97% 100%, 0% 100%, 0% 2%)",
-    height: "420px",
-    imageRatio: "60%",
-    rotation: -1.0,
-    tapes: [
-      { top: "56%", right: "-10px", rotation: 90, size: "w-20 h-6" },
-      { top: "12px", right: "30%", rotation: -3, size: "w-16 h-5" }
-    ]
-  },
-  {
-    clipPath: "polygon(0% 0%, 98% 0%, 100% 3%, 100% 100%, 2% 100%, 0% 99%, 1% 1%)",
-    height: "450px",
-    imageRatio: "55%",
-    rotation: 0.6,
-    tapes: [
-      { bottom: "40%", left: "8px", rotation: -88, size: "w-16 h-6" }
-    ]
-  },
-  {
-    clipPath: "polygon(1% 1%, 99% 0%, 100% 1%, 100% 99%, 98% 100%, 1% 99%, 0% 98%)",
-    height: "430px",
-    imageRatio: "57%",
-    rotation: -0.5,
-    tapes: [
-      { top: "52%", right: "12px", rotation: 85, size: "w-18 h-6" },
-      { bottom: "6px", left: "25%", rotation: 1, size: "w-14 h-5" }
-    ]
-  },
-  {
-    clipPath: "polygon(0% 2%, 97% 0%, 100% 2%, 100% 98%, 99% 100%, 2% 100%, 0% 97%)",
-    height: "445px",
-    imageRatio: "54%",
-    rotation: 0.9,
-    tapes: [
-      { top: "50%", left: "-6px", rotation: -90, size: "w-20 h-7" }
-    ]
+    baseClassName: "lg:col-span-4 lg:ml-10 lg:-mt-2",
+    openClassName: "lg:col-span-8 lg:ml-0",
+    minHeight: "458px",
+    rotation: -1.1,
+    paperRotation: -0.5,
+    photoRotation: -1.6,
+    tabAlign: "left",
+    tapeA: { top: "18px", right: "22px", rotation: 5 },
+    tapeB: { left: "20%", bottom: "18px", rotation: 1 },
   },
 ];
 
 export function Experiments() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [activeExperiment, setActiveExperiment] = useState<number | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.18 });
+  const [selectedExperimentId, setSelectedExperimentId] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
-      {/* Depth of field background blur */}
-      <div className="absolute inset-0 backdrop-blur-[2px] -z-10" />
-      
-      {/* Soft animated background */}
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full opacity-5"
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          style={{
-            backgroundImage: "radial-gradient(circle at center, rgba(180, 130, 70, 0.2) 0%, transparent 50%)",
-            backgroundSize: "80px 80px",
-          }}
-        />
-      </div>
+    <section ref={ref} className="relative overflow-hidden px-6 py-28 md:px-8">
+      <DeskSurface className="absolute inset-0 -z-10" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-[1540px]">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-20 text-center"
+          transition={{ duration: 0.55 }}
+          className="mb-16 max-w-3xl"
         >
-          <span className="text-stone-700 tracking-wider uppercase text-sm bg-white/40 backdrop-blur-sm px-5 py-2 rounded-full border border-stone-300/50 shadow-sm inline-block" style={{ fontFamily: "'Caveat', cursive", fontSize: '18px' }}>Portfolio</span>
-          <h2 className="text-5xl md:text-6xl text-stone-900 mt-6 mb-4" style={{ fontFamily: "'Caveat', cursive" }}>
-            Experiments &{" "}
-            <span className="text-amber-800">explorations</span>
+          <div className="archive-meta inline-flex items-center gap-2 border border-[rgba(63,53,42,0.18)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[10px] shadow-[var(--archive-shadow-label)]">
+            <span className="h-2 w-2 rounded-full bg-[var(--archive-stamp-red)]" />
+            Desk Archive
+          </div>
+          <h2 className="archive-title mt-5 text-4xl leading-tight md:text-6xl">
+            Production proofs, contact sheets, and opened project files.
           </h2>
-          <p className="text-stone-600 text-xl max-w-2xl mx-auto" style={{ fontFamily: "'Kalam', cursive" }}>
-            The space where ideas get curious and interactions get interesting
+          <p className="archive-body mt-4 max-w-2xl text-base leading-7 md:text-lg">
+            Each project is treated like a physical archive object: proof prints, binder sleeves, typed labels, tape notes, and a folder that unfolds on the desk when opened.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
           {experiments.map((experiment, index) => {
-            const Icon = experiment.icon;
-            const composition = cardCompositions[index % cardCompositions.length];
-            
-            return (
-              <motion.div
-                key={experiment.id}
-                initial={{ opacity: 0, y: 40, rotate: 0 }}
-                animate={isInView ? { 
-                  opacity: 1, 
-                  y: 0,
-                  rotate: composition.rotation 
-                } : {}}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                onHoverStart={() => setActiveExperiment(experiment.id)}
-                onHoverEnd={() => setActiveExperiment(null)}
-                data-cursor="hover"
-                className="group relative"
-                style={{ 
-                  transformStyle: "preserve-3d",
-                  height: composition.height
-                }}
-              >
-                {experiment.link ? (
-                  <a
-                    href={experiment.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block h-full cursor-pointer"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <CardContent 
-                      experiment={experiment}
-                      composition={composition}
-                      index={index}
-                      activeExperiment={activeExperiment}
-                    />
-                  </a>
-                ) : (
-                  <CardContent 
-                    experiment={experiment}
-                    composition={composition}
-                    index={index}
-                    activeExperiment={activeExperiment}
-                  />
-                )}
+            const layout = deskLayouts[index % deskLayouts.length];
+            const isSelected = selectedExperimentId === experiment.id;
 
-                {/* Floating paper confetti on hover */}
-                {activeExperiment === experiment.id && (
-                  <>
-                    {[...Array(8)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute w-2 h-2 bg-amber-400/60 shadow-sm"
-                        style={{
-                          clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                          left: "50%",
-                          top: "50%",
-                        }}
-                        initial={{
-                          x: 0,
-                          y: 0,
-                          opacity: 0,
-                          rotate: 0,
-                        }}
-                        animate={{
-                          x: Math.cos((i * Math.PI * 2) / 8) * 70,
-                          y: Math.sin((i * Math.PI * 2) / 8) * 70,
-                          opacity: [0, 0.9, 0],
-                          rotate: [0, 360],
-                        }}
-                        transition={{
-                          duration: 1.8,
-                          repeat: Infinity,
-                          delay: i * 0.15,
-                          ease: "easeOut",
-                        }}
-                      />
-                    ))}
-                  </>
-                )}
-              </motion.div>
+            return (
+              <motion.article
+                key={experiment.id}
+                layout
+                initial={{ opacity: 0, y: 28 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: index * 0.07 }}
+                className={`relative ${isSelected ? layout.openClassName : layout.baseClassName}`}
+              >
+                <ExperimentArtifact
+                  experiment={experiment}
+                  layout={layout}
+                  index={index}
+                  isSelected={isSelected}
+                  onSelect={() => setSelectedExperimentId(isSelected ? null : experiment.id)}
+                />
+              </motion.article>
             );
           })}
         </div>
@@ -254,195 +184,255 @@ export function Experiments() {
   );
 }
 
-function CardContent({ experiment, composition, index, activeExperiment }: { experiment: any, composition: any, index: number, activeExperiment: number | null }) {
+function ExperimentArtifact({
+  experiment,
+  layout,
+  index,
+  isSelected,
+  onSelect,
+}: {
+  experiment: (typeof experiments)[number];
+  layout: (typeof deskLayouts)[number];
+  index: number;
+  isSelected: boolean;
+  onSelect: () => void;
+}) {
   const Icon = experiment.icon;
+
   return (
     <motion.div
-      className="relative overflow-hidden bg-white h-full shadow-[4px_4px_0px_rgba(0,0,0,0.1),8px_8px_0px_rgba(245,158,11,0.1)]"
-      style={{
-        clipPath: composition.clipPath,
-      }}
-      whileHover={{
-        y: -12,
-        rotateX: 3,
-        rotateY: index % 2 === 0 ? 2 : -2,
-        scale: 1.02,
-        rotate: 0,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      layout
+      transition={{ type: "spring", stiffness: 210, damping: 26 }}
+      className="relative"
+      style={{ transform: `rotate(${layout.rotation}deg)` }}
     >
-      {/* Paper texture overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] mix-blend-multiply pointer-events-none z-10"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
-      />
-
-      {/* Subtle shadow layers for paper depth */}
-      <motion.div
-        className="absolute -inset-3 bg-amber-200/30 blur-xl -z-10"
-        animate={{ 
-          opacity: activeExperiment === experiment.id ? 0.8 : 0.3,
-          scale: activeExperiment === experiment.id ? 1.05 : 1,
-        }}
-        transition={{ duration: 0.3 }}
-      />
-
-      {/* Image area - like a magazine cutout */}
-      <div 
-        className="absolute top-0 left-0 right-0 overflow-hidden"
-        style={{ height: composition.imageRatio }}
+      <button
+        type="button"
+        onClick={onSelect}
+        data-cursor="hover"
+        className="group block w-full text-left"
+        style={{ cursor: "pointer" }}
       >
         <motion.div
-          animate={{
-            scale: activeExperiment === experiment.id ? 1.1 : 1,
-          }}
-          transition={{ duration: 0.6 }}
-          className="w-full h-full relative"
+          whileHover={{ y: -7, rotate: layout.rotation + (index % 2 === 0 ? 0.2 : -0.2), scale: 1.008 }}
+          transition={{ type: "spring", stiffness: 260, damping: 22 }}
         >
-          <ImageWithFallback
-            src={experiment.image}
-            alt={experiment.title}
-            className="w-full h-full object-cover"
-          />
-          {/* Polaroid-style border effect */}
-          <div className="absolute inset-0 border-[6px] border-white shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]" />
-          {/* Slight gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-amber-50/60 via-transparent to-transparent" />
-        </motion.div>
+          <ArchiveFolder className="rounded-[18px] p-5 md:p-6" >
+            <FolderTab
+              className={`absolute top-0 h-12 w-28 rounded-t-[12px] ${layout.tabAlign === "right" ? "right-[14%]" : "left-[14%]"}`}
+              style={{ transform: "translateY(-12px)" }}
+            />
 
-        {/* Year stamp - varied positions */}
-        <motion.div
-          className="absolute bg-amber-100/80 px-3 py-1 text-xs text-amber-900 border border-amber-300/50 shadow-sm"
-          style={{ 
-            fontFamily: "'Courier New', monospace",
-            clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)",
-            ...(index % 3 === 0 
-              ? { top: "12px", right: "12px", transform: "rotate(2deg)" }
-              : index % 3 === 1
-              ? { top: "12px", left: "12px", transform: "rotate(-3deg)" }
-              : { bottom: "12px", right: "12px", transform: "rotate(3deg)" }
-            )
-          }}
-          whileHover={{ rotate: 0, scale: 1.1 }}
-        >
-          {experiment.year}
-        </motion.div>
-      </div>
-
-      {/* Content area - editorial layout */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-amber-50/80 to-white p-6 flex flex-col justify-between"
-        style={{
-          top: composition.imageRatio
-        }}
-      >
-        {/* Icon badge - like a printed stamp */}
-        <motion.div
-          className="w-14 h-14 bg-white border-2 border-stone-300 flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,0.1)] relative"
-          style={{
-            clipPath: "polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)",
-          }}
-          animate={{
-            scale: activeExperiment === experiment.id ? 1.15 : 1,
-            rotate: activeExperiment === experiment.id ? 8 : 0,
-          }}
-          transition={{ duration: 0.4 }}
-        >
-          <Icon className="text-amber-700 w-6 h-6" />
-          {/* Stamp-like circular border */}
-          <div className="absolute inset-1 border border-dashed border-amber-300/50 rounded-full" />
-        </motion.div>
-
-        {/* Title and description */}
-        <div className="flex-1 mt-3">
-          <h3 
-            className="text-2xl text-stone-900 mb-2 group-hover:text-amber-800 transition-colors relative inline-block"
-            style={{ 
-              fontFamily: "'Caveat', cursive",
-              textShadow: "1px 1px 0px rgba(0,0,0,0.05)",
-            }}
-          >
-            {experiment.title}
-            {/* Underline scribble */}
-            <motion.svg
-              className="absolute -bottom-1 left-0 w-full h-2 opacity-0 group-hover:opacity-100"
-              viewBox="0 0 100 6"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: activeExperiment === experiment.id ? 1 : 0 }}
-              transition={{ duration: 0.4 }}
+            <PaperInsert
+              className="pointer-events-none absolute inset-x-4 top-4 bottom-4 rounded-[18px] opacity-80"
+              style={{ transform: `translate(10px, 12px) rotate(${layout.paperRotation}deg)` }}
             >
-              <path
-                d="M 2 3 Q 25 1, 50 3 T 98 3"
-                stroke="#d97706"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-              />
-            </motion.svg>
-          </h3>
-          <p className="text-stone-600 text-sm font-light leading-relaxed" style={{ fontFamily: "'Kalam', cursive" }}>
-            {experiment.description}
-          </p>
-        </div>
+              <div />
+            </PaperInsert>
 
-        {/* Tags - like printed labels */}
-        <div className="flex flex-wrap gap-2 mt-3">
-          {experiment.tags.map((tag, tagIndex) => (
-            <motion.span
-              key={tagIndex}
-              className="px-2.5 py-1 bg-white text-xs text-stone-700 border border-stone-300/70 shadow-[1px_1px_0px_rgba(0,0,0,0.08)]"
-              style={{
-                fontFamily: "'Courier New', monospace",
-                clipPath: "polygon(3% 0%, 97% 0%, 100% 3%, 100% 97%, 97% 100%, 3% 100%, 0% 97%, 0% 3%)",
-                transform: `rotate(${(tagIndex % 2 === 0 ? -0.5 : 0.5)}deg)`,
-              }}
-              whileHover={{
-                y: -2,
-                rotate: 0,
-                boxShadow: "2px 2px 0px rgba(0,0,0,0.15)",
-              }}
-            >
-              {tag}
-            </motion.span>
-          ))}
-        </div>
+            <ClipDetail
+              className="left-1/2 top-0 h-8 w-28 -translate-x-1/2 -translate-y-3"
+              style={{ borderWidth: "2.5px" }}
+            />
 
-        {/* Launch button - appears on hover */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: activeExperiment === experiment.id ? 1 : 0,
-            y: activeExperiment === experiment.id ? 0 : 10,
-          }}
-          transition={{ duration: 0.3 }}
-          className="mt-4"
-        >
-          <button 
-            className="w-full py-2.5 bg-stone-800 text-white text-sm shadow-[2px_2px_0px_rgba(0,0,0,0.3)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.3)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
-            style={{
-              fontFamily: "'Courier New', monospace",
-              clipPath: "polygon(2% 0%, 98% 0%, 100% 2%, 100% 98%, 98% 100%, 2% 100%, 0% 98%, 0% 2%)",
-            }}
-          >
-            LAUNCH PROJECT →
-          </button>
+            <div className="desk-hole-strip rounded-l-[18px]">
+              <div className="flex h-full flex-col items-center justify-evenly py-5">
+                {Array.from({ length: 12 }).map((_, holeIndex) => (
+                  <div key={holeIndex} className="h-2.5 w-1.5 rounded-full bg-[rgba(58,48,39,0.38)]" />
+                ))}
+              </div>
+            </div>
+
+            <div className="relative ml-6">
+              <PrintedPhoto
+                className="relative overflow-hidden rounded-[14px] p-3"
+                style={{
+                  minHeight: isSelected ? "336px" : layout.minHeight,
+                  transform: `rotate(${layout.photoRotation}deg)`,
+                }}
+              >
+                <div className="relative h-full overflow-hidden border border-[var(--archive-photo-border)] bg-[#ebe4da]">
+                  <motion.div
+                    className="h-full w-full"
+                    whileHover={{ scale: 1.045 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <ImageWithFallback src={experiment.image} alt={experiment.title} className="h-full w-full object-cover" />
+                  </motion.div>
+                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_26%,rgba(40,30,20,0.06)_100%)]" />
+                </div>
+
+                <BinderSleeve className="right-[7%] top-[8%] h-[31%] w-[31%]" />
+
+                <TapeStrip placement={layout.tapeA} />
+                <TapeStrip placement={layout.tapeB} />
+
+                <MetadataNote title={experiment.title} year={experiment.year} />
+
+                <div className="archive-filedate absolute bottom-3 left-4 right-4 flex items-center justify-between text-[9px]">
+                  <span>proof print</span>
+                  <span>no. {String(index + 1).padStart(2, "0")}</span>
+                </div>
+              </PrintedPhoto>
+
+              <PaperInsert className="relative mt-5 rounded-[16px] px-4 pb-4 pt-3">
+                <VellumOverlay className="right-4 top-3 h-10 w-16" />
+                <div className="relative z-10">
+                  <div className="mb-3 flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(80,69,57,0.14)] bg-[rgba(246,242,236,0.96)]"
+                        style={{ boxShadow: "var(--archive-shadow-label)" }}
+                      >
+                        <Icon className="h-[18px] w-[18px] text-[#5f4c3c]" />
+                      </div>
+                      <span className="archive-meta border border-[rgba(138,79,72,0.16)] bg-[rgba(138,79,72,0.08)] px-2 py-1 text-[9px] text-[var(--archive-stamp-red)]">
+                        {isSelected ? "folder open" : "click to open"}
+                      </span>
+                    </div>
+                    <span className="archive-filedate text-[9px]">launch stays separate</span>
+                  </div>
+
+                  <h3 className="archive-title text-[1.8rem] leading-none">{experiment.title}</h3>
+                  <motion.div
+                    animate={{ scaleX: isSelected ? 1 : 0.56, opacity: isSelected ? 1 : 0.66 }}
+                    transition={{ duration: 0.28 }}
+                    className="mt-2 h-[2px] origin-left bg-[var(--archive-stamp-red)]"
+                  />
+                  <p className="archive-body mt-3 text-[13px] leading-6">{experiment.description}</p>
+                </div>
+              </PaperInsert>
+            </div>
+          </ArchiveFolder>
         </motion.div>
-      </div>
+      </button>
 
-      {/* Tape pieces - varied positions */}
-      {composition.tapes.map((tape, tapeIndex) => (
-        <div 
-          key={tapeIndex}
-          className={`absolute ${tape.size} bg-amber-100/40 border border-amber-200/60 backdrop-blur-sm shadow-sm z-30`}
-          style={{ 
-            clipPath: "polygon(5% 0%, 95% 0%, 100% 10%, 100% 90%, 95% 100%, 5% 100%, 0% 90%, 0% 10%)",
-            ...tape,
-            transform: `rotate(${tape.rotation}deg)`,
-          }} 
-        />
-      ))}
+      <AnimatePresence initial={false}>
+        {isSelected ? (
+          <motion.div
+            key="open-folder"
+            layout
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.28 }}
+            className="relative ml-6 mt-5"
+          >
+            <OpenArchiveFolder experiment={experiment} />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </motion.div>
+  );
+}
+
+function OpenArchiveFolder({
+  experiment,
+}: {
+  experiment: (typeof experiments)[number];
+}) {
+  return (
+    <ArchiveFolder className="rounded-[18px] p-5 md:p-6">
+      <FolderTab className="absolute left-[10%] top-0 h-12 w-32 rounded-t-[12px]" style={{ transform: "translateY(-12px)" }} />
+      <div className="grid gap-5 xl:grid-cols-[1.35fr_0.65fr]">
+        <PaperInsert className="relative rounded-[16px] p-4">
+          <ClipDetail className="left-12 top-0 h-8 w-24 -translate-y-3" />
+          <div className="mb-3 flex items-center justify-between">
+            <span className="archive-meta text-[9px]">contact sheet</span>
+            <span className="archive-filedate text-[9px]">process views</span>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[0, 1, 2, 3].map((item) => (
+              <PrintedPhoto key={item} className="overflow-hidden rounded-[12px] p-2.5">
+                <div className="aspect-[4/3] overflow-hidden border border-[var(--archive-photo-border)] bg-[#ebe4da]">
+                  <ImageWithFallback
+                    src={experiment.image}
+                    alt={`${experiment.title} progress ${item + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="archive-filedate mt-2 flex items-center justify-between text-[9px]">
+                  <span>progress {String(item + 1).padStart(2, "0")}</span>
+                  <span>sheet</span>
+                </div>
+              </PrintedPhoto>
+            ))}
+          </div>
+        </PaperInsert>
+
+        <div className="space-y-5">
+          <PaperInsert className="rounded-[16px] p-4">
+            <div className="archive-meta text-[9px]">metadata</div>
+            <p className="archive-body mt-3 text-sm leading-6">
+              A folder opened on the desk, with contact sheets, notes, and room for deeper progress material without leaving the archive view.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {experiment.tags.map((tag, index) => (
+                <MetadataLabel
+                  key={tag}
+                  className="px-2.5 py-1"
+                  style={{ transform: `rotate(${index % 2 === 0 ? -1 : 0.8}deg)` }}
+                >
+                  <span className="archive-filedate text-[10px] text-[var(--archive-ink-charcoal)]">{tag}</span>
+                </MetadataLabel>
+              ))}
+            </div>
+          </PaperInsert>
+
+          <PaperInsert className="rounded-[16px] p-4">
+            <div className="archive-meta text-[9px]">external link</div>
+            <p className="archive-body mt-3 text-sm leading-6">
+              Inspect first, then decide to leave the desk. The project link stays separate from the folder-open interaction.
+            </p>
+            <a
+              href={experiment.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="archive-meta mt-5 inline-flex w-full items-center justify-center border border-[rgba(26,22,18,0.08)] bg-[var(--archive-charcoal)] px-5 py-3 text-[11px] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
+            >
+              Launch Project
+            </a>
+          </PaperInsert>
+        </div>
+      </div>
+    </ArchiveFolder>
+  );
+}
+
+function MetadataNote({
+  title,
+  year,
+}: {
+  title: string;
+  year: string;
+}) {
+  return (
+    <MetadataLabel className="pointer-events-none absolute right-[16px] top-[16px] z-20 max-w-[160px] px-3 py-2" style={{ transform: "rotate(-2deg)" }}>
+      <div className="archive-filedate text-[9px]">file date</div>
+      <div className="archive-title mt-1 text-sm">{year}</div>
+      <div className="archive-filedate mt-2 border-t border-[rgba(93,78,62,0.12)] pt-2 text-[10px]">
+        {title}
+      </div>
+    </MetadataLabel>
+  );
+}
+
+function TapeStrip({
+  placement,
+}: {
+  placement: { top?: string; right?: string; bottom?: string; left?: string; rotation: number };
+}) {
+  const { rotation, ...positionStyle } = placement;
+
+  return (
+    <TapeTab
+      className="h-5 w-20"
+      style={{
+        ...positionStyle,
+        transform: `rotate(${rotation}deg)`,
+        clipPath: "polygon(5% 5%, 95% 0%, 100% 18%, 96% 100%, 4% 95%, 0% 8%)",
+      }}
+    />
   );
 }

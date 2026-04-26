@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { CustomCursor } from "./components/CustomCursor";
+import { SiteNavbar } from "./components/archive/SiteNavbar";
+import { TextureOverlay } from "./components/archive/TextureOverlay";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Education } from "./components/Education";
@@ -97,9 +99,9 @@ export default function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="min-h-screen bg-[#f5f1e8]"
+          className="min-h-screen bg-[var(--archive-bg)]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23F5F1E8' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' fill='%23f5f1e8'/%3E%3C/svg%3E")`,
+            backgroundImage: "var(--archive-paper-texture)",
             backgroundAttachment: 'fixed',
           }}
         >
@@ -108,118 +110,18 @@ export default function App() {
 
           {/* Subtle grain texture overlay */}
           <div className="fixed inset-0 pointer-events-none z-[9998] opacity-[0.03] mix-blend-overlay">
-            <div
-              className="w-full h-full"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-              }}
-            />
+            <TextureOverlay className="w-full h-full" />
           </div>
 
-          {/* Navigation - Minimal Collage Style */}
-          {/* Logo - Paper Label */}
-          <motion.div
-            initial={{ x: -30, opacity: 0 }}
-            animate={{ 
-              x: headerVisible ? 0 : -30, 
-              opacity: headerVisible ? 1 : 0 
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-8 left-8 z-50"
-            style={{ cursor: 'none' }}
-          >
-            <motion.div className="relative">
-              {/* White sticker border */}
-              <div 
-                className="absolute -inset-2.5 bg-white border-2 border-stone-200/70 shadow-md"
-                style={{
-                  clipPath: "polygon(6% 0%, 94% 0%, 100% 6%, 100% 94%, 94% 100%, 6% 100%, 0% 94%, 0% 6%)",
-                  transform: 'rotate(1deg)',
-                }}
-              />
-              
-              {/* Paper label background */}
-              <motion.div
-                className="relative bg-[#faf8f3] border border-stone-300/50 shadow-[2px_3px_8px_rgba(0,0,0,0.15)]"
-                style={{
-                  transform: 'rotate(-1.5deg)',
-                  clipPath: "polygon(8% 2%, 92% 0%, 98% 8%, 100% 92%, 92% 98%, 8% 100%, 2% 92%, 0% 8%)",
-                }}
-                whileHover={{ scale: 1.08, rotate: 2 }}
-                data-cursor="hover"
-              >
-                {/* Paper texture */}
-                <div 
-                  className="absolute inset-0 opacity-[0.05] mix-blend-multiply pointer-events-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                  }}
-                />
-                
-                <div
-                  className="text-4xl text-stone-900 relative z-10 px-5 py-3"
-                  style={{ fontFamily: "'Caveat', cursive" }}
-                >
-                  DF
-                </div>
-              </motion.div>
-              
-              {/* Small decorative tape */}
-              <div 
-                className="absolute -top-1.5 -right-1.5 w-26 h-10 bg-amber-100/60 border border-amber-200/30 shadow-sm"
-                style={{
-                  rotate: 25,
-                  clipPath: "polygon(5% 20%, 95% 22%, 93% 78%, 3% 76%)",
-                }}
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Navigation Links - Direct on Page */}
-          <motion.nav
-            initial={{ x: 30, opacity: 0 }}
-            animate={{ 
-              x: headerVisible ? 0 : 30, 
-              opacity: headerVisible ? 1 : 0 
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-10 right-10 z-50 flex gap-8"
-            style={{ cursor: 'none' }}
-          >
-            {[
+          <SiteNavbar
+            headerVisible={headerVisible}
+            items={[
               { label: "About Me", id: "about" },
               { label: "Education", id: "education" },
               { label: "Portfolio", id: "experiments" },
-              { label: "Contact Me", id: "contact" }
-            ].map((item, index) => (
-              <motion.a
-                key={item.label}
-                href={`#${item.id}`}
-                data-cursor="hover"
-                className="relative text-stone-700 hover:text-amber-800 transition-colors text-sm font-medium tracking-wide"
-                whileHover={{ y: -2, scale: 1.05 }}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.08 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.getElementById(item.id);
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                {item.label}
-                {/* Subtle underline on hover */}
-                <motion.div
-                  className="absolute -bottom-1 left-0 right-0 h-px bg-amber-700"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.25 }}
-                />
-              </motion.a>
-            ))}
-          </motion.nav>
+              { label: "Contact Me", id: "contact" },
+            ]}
+          />
 
           {/* Main content */}
           <main className="relative">
