@@ -1,4 +1,4 @@
-import { motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import { type CSSProperties, useRef, useState } from "react";
 import { Code2, Sparkles, Shapes, Wand2, Camera } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
@@ -143,7 +143,9 @@ const grainTexture =
 export function Experiments() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [activeExperiment, setActiveExperiment] = useState<number | null>(null);
+  const [hoveredExperiment, setHoveredExperiment] = useState<number | null>(null);
+  const [expandedExperiment, setExpandedExperiment] = useState<number | null>(null);
+  const activeExperiment = expandedExperiment ?? hoveredExperiment;
   const [expandedExperiment, setExpandedExperiment] = useState<number | null>(null);
 
   return (
@@ -226,8 +228,8 @@ export function Experiments() {
                 initial={{ opacity: 0, y: 40, rotate: 0 }}
                 animate={isInView ? { opacity: 1, y: 0, rotate: composition.rotation } : {}}
                 transition={{ duration: 0.6, delay: index * 0.08 }}
-                onHoverStart={() => setActiveExperiment(experiment.id)}
-                onHoverEnd={() => setActiveExperiment(null)}
+                onMouseEnter={() => setHoveredExperiment(experiment.id)}
+                onMouseLeave={() => setHoveredExperiment((current) => (current === experiment.id ? null : current))}
                 data-cursor="hover"
                 className="group relative"
                 style={{
@@ -237,11 +239,7 @@ export function Experiments() {
               >
                 <button
                   type="button"
-                  onClick={() =>
-                    setExpandedExperiment((current) =>
-                      current === experiment.id ? null : experiment.id,
-                    )
-                  }
+                  onClick={() => setExpandedExperiment(experiment.id)}
                   className="block h-full w-full cursor-pointer text-left"
                   style={{ cursor: "pointer" }}
                 >
@@ -254,50 +252,34 @@ export function Experiments() {
                 </button>
 
                 {activeExperiment === experiment.id && (
-                  <>
-                    {[...Array(8)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="pointer-events-none absolute h-2 w-2 border border-[rgba(128,111,91,0.18)] bg-[rgba(255,249,240,0.86)] shadow-sm"
-                        style={{
-                          left: "50%",
-                          top: "50%",
-                          clipPath: "polygon(12% 0%, 88% 0%, 100% 12%, 100% 88%, 88% 100%, 12% 100%, 0% 88%, 0% 12%)",
-                        }}
-                        initial={{
-                          x: 0,
-                          y: 0,
-                          opacity: 0,
-                          rotate: 0,
-                        }}
-                        animate={{
-                          x: Math.cos((i * Math.PI * 2) / 8) * 70,
-                          y: Math.sin((i * Math.PI * 2) / 8) * 70,
-                          opacity: [0, 0.9, 0],
-                          rotate: [0, 360],
-                        }}
-                        transition={{
-                          duration: 1.8,
-                          repeat: Infinity,
-                          delay: i * 0.15,
-                          ease: "easeOut",
-                        }}
-                      />
-                    ))}
-                  </>
+                  <motion.div
+                    className="pointer-events-none absolute inset-x-[16%] top-[18%] h-[24%] rounded-full bg-[rgba(255,255,255,0.12)]"
+                    animate={{
+                      x: [-6, 10, -6],
+                      opacity: expandedExperiment === experiment.id ? 0.28 : 0.18,
+                    }}
+                    transition={{
+                      duration: 2.8,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{ filter: "blur(16px)" }}
+                  />
                 )}
               </motion.div>
             );
           })}
         </div>
+      </div>
 
+      <AnimatePresence>
         {expandedExperiment ? (
           <ExpandedExperimentFolder
             experiment={experiments.find((item) => item.id === expandedExperiment)!}
             onClose={() => setExpandedExperiment(null)}
           />
         ) : null}
-      </div>
+      </AnimatePresence>
     </section>
   );
 }
@@ -513,8 +495,8 @@ function CardContent({
 
               <div className="flex-1">
                 <h3
-                  className="relative mb-2 inline-block text-[2rem] leading-none text-stone-900 transition-colors group-hover:text-[#7d4b43]"
-                  style={{ fontFamily: "'Caveat', cursive" }}
+                  className="relative mb-2 inline-block text-[1.9rem] leading-none text-stone-900 transition-colors group-hover:text-[#7d4b43]"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   {experiment.title}
                   <motion.svg
@@ -605,125 +587,156 @@ function ExpandedExperimentFolder({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-      className="mt-16"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[120] flex items-center justify-center px-5 py-10"
     >
-      <div
-        className="relative overflow-hidden rounded-[30px] border border-[rgba(67,57,47,0.18)] bg-[linear-gradient(180deg,rgba(243,237,227,0.98),rgba(232,225,213,0.98))] p-6 md:p-8"
-        style={{
-          boxShadow:
-            "0 34px 68px rgba(36, 28, 20, 0.18), 0 2px 0 rgba(255,255,255,0.72) inset",
-        }}
+      <button
+        type="button"
+        aria-label="Close archive folder"
+        onClick={onClose}
+        className="absolute inset-0 bg-[rgba(17,14,11,0.34)] backdrop-blur-[4px]"
+      />
+
+      <motion.div
+        initial={{ y: 46, scale: 0.94, rotateX: 8 }}
+        animate={{ y: 0, scale: 1, rotateX: 0 }}
+        exit={{ y: 30, scale: 0.97, opacity: 0 }}
+        transition={{ duration: 0.42, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-6xl"
+        style={{ transformStyle: "preserve-3d" }}
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
-          style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
+          className="absolute inset-x-[4%] top-0 h-16 rounded-t-[20px] border border-[rgba(77,61,43,0.18)] bg-[linear-gradient(180deg,#b6905e,#8f6d46)]"
+          style={{
+            transform: "translateY(-16px)",
+            boxShadow: "0 14px 22px rgba(42, 29, 17, 0.18)",
+          }}
         />
-        <div className="relative z-10">
-          <div className="mb-6 flex items-start justify-between gap-4">
-            <div>
-              <div
-                className="text-[11px] uppercase tracking-[0.22em] text-[#7d4b43]"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Expanded Archive Folder
-              </div>
-              <h3
-                className="mt-3 text-4xl text-stone-900"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                {experiment.title}
-              </h3>
-              <p
-                className="mt-3 max-w-3xl text-base leading-7 text-stone-600"
-                style={{ fontFamily: "'Kalam', cursive" }}
-              >
-                {experiment.description}
-              </p>
-            </div>
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-full border border-[rgba(67,57,47,0.16)] bg-[rgba(255,252,247,0.78)] px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-stone-600"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Close
-            </button>
-          </div>
+        <div
+          className="relative overflow-hidden rounded-[28px] border border-[rgba(67,57,47,0.2)] bg-[linear-gradient(180deg,rgba(244,238,228,0.99),rgba(233,226,214,0.99))] p-6 md:p-8"
+          style={{
+            boxShadow:
+              "0 42px 90px rgba(18, 14, 11, 0.28), 0 2px 0 rgba(255,255,255,0.74) inset",
+          }}
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
+            style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
+          />
 
-          <div className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-            <div className="grid gap-5 md:grid-cols-2">
-              {[0, 1, 2, 3].map((item) => (
+          <div className="relative z-10">
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div>
                 <div
-                  key={item}
-                  className="relative overflow-hidden rounded-[20px] border border-[rgba(68,58,49,0.16)] bg-[rgba(255,255,255,0.9)] p-3"
-                  style={{ boxShadow: "0 18px 28px rgba(36,28,20,0.1)" }}
-                >
-                  <div className="aspect-[4/3] overflow-hidden border border-[rgba(62,52,43,0.12)] bg-[#e8e2d8]">
-                    <ImageWithFallback
-                      src={experiment.image}
-                      alt={`${experiment.title} preview ${item + 1}`}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span
-                      className="text-[10px] uppercase tracking-[0.2em] text-stone-500"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                    >
-                      progress {String(item + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className="text-[10px] uppercase tracking-[0.16em] text-stone-400"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                    >
-                      contact sheet
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-5">
-              <div
-                className="rounded-[20px] border border-[rgba(67,57,47,0.16)] bg-[rgba(255,251,245,0.9)] p-5"
-                style={{ boxShadow: "0 14px 24px rgba(36,28,20,0.08)" }}
-              >
-                <div
-                  className="text-[10px] uppercase tracking-[0.22em] text-[#7d4b43]"
+                  className="text-[11px] uppercase tracking-[0.22em] text-[#7d4b43]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  Project Tags
+                  Archive Folder Opened
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {experiment.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="border border-[rgba(73,62,53,0.14)] bg-[rgba(255,251,245,0.88)] px-2.5 py-1 text-xs text-stone-700"
-                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                <h3
+                  className="mt-3 text-4xl text-stone-900 md:text-5xl"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {experiment.title}
+                </h3>
+                <p
+                  className="mt-3 max-w-3xl text-base leading-7 text-stone-600"
+                  style={{ fontFamily: "'Kalam', cursive" }}
+                >
+                  {experiment.description}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-full border border-[rgba(67,57,47,0.16)] bg-[rgba(255,252,247,0.86)] px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-stone-600"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+              <div
+                className="relative overflow-hidden rounded-[24px] border border-[rgba(71,61,52,0.18)] bg-[rgba(255,255,255,0.56)] p-4"
+                style={{ boxShadow: "0 20px 34px rgba(36,28,20,0.12)" }}
+              >
+                <div className="pointer-events-none absolute left-0 top-0 h-full w-7 border-r border-[rgba(65,56,47,0.14)] bg-[linear-gradient(180deg,rgba(219,211,199,0.9),rgba(198,189,176,0.76))]" />
+                <div className="relative ml-6 grid gap-5 md:grid-cols-2">
+                  {[0, 1, 2, 3].map((item) => (
+                    <div
+                      key={item}
+                      className="relative overflow-hidden rounded-[18px] border border-[rgba(68,58,49,0.16)] bg-[rgba(255,255,255,0.92)] p-3"
+                      style={{ boxShadow: "0 18px 28px rgba(36,28,20,0.1)" }}
                     >
-                      {tag}
-                    </span>
+                      <div className="aspect-[4/3] overflow-hidden border border-[rgba(62,52,43,0.12)] bg-[#e8e2d8]">
+                        <ImageWithFallback
+                          src={experiment.image}
+                          alt={`${experiment.title} preview ${item + 1}`}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="mt-3 flex items-center justify-between">
+                        <span
+                          className="text-[10px] uppercase tracking-[0.2em] text-stone-500"
+                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                        >
+                          progress {String(item + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className="text-[10px] uppercase tracking-[0.16em] text-stone-400"
+                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                        >
+                          sheet
+                        </span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              <a
-                href={experiment.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full border border-[rgba(26,22,18,0.08)] bg-[#231d19] py-3 text-center text-sm tracking-[0.2em] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                LAUNCH PROJECT →
-              </a>
+              <div className="space-y-5">
+                <div
+                  className="rounded-[20px] border border-[rgba(67,57,47,0.16)] bg-[rgba(255,251,245,0.92)] p-5"
+                  style={{ boxShadow: "0 14px 24px rgba(36,28,20,0.08)" }}
+                >
+                  <div
+                    className="text-[10px] uppercase tracking-[0.22em] text-[#7d4b43]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Project Tags
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {experiment.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="border border-[rgba(73,62,53,0.14)] bg-[rgba(255,251,245,0.88)] px-2.5 py-1 text-xs text-stone-700"
+                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <a
+                  href={experiment.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full border border-[rgba(26,22,18,0.08)] bg-[#231d19] py-3 text-center text-sm tracking-[0.2em] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  LAUNCH PROJECT →
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
