@@ -70,6 +70,7 @@ const cardCompositions = [
       { top: "53%", right: "-6px", rotation: 88, size: "w-16 h-6" },
     ],
     labelSide: "right",
+    photoOffset: { left: "48px", right: "42px", top: "34px" },
   },
   {
     height: "490px",
@@ -84,6 +85,7 @@ const cardCompositions = [
       { bottom: "112px", left: "-8px", rotation: -89, size: "w-16 h-6" },
     ],
     labelSide: "left",
+    photoOffset: { left: "46px", right: "46px", top: "34px" },
   },
   {
     height: "455px",
@@ -98,6 +100,7 @@ const cardCompositions = [
       { bottom: "16px", right: "18%", rotation: 2, size: "w-14 h-5" },
     ],
     labelSide: "right",
+    photoOffset: { left: "50px", right: "40px", top: "34px" },
   },
   {
     height: "482px",
@@ -112,6 +115,7 @@ const cardCompositions = [
       { top: "50%", right: "-8px", rotation: 90, size: "w-16 h-6" },
     ],
     labelSide: "left",
+    photoOffset: { left: "46px", right: "46px", top: "35px" },
   },
   {
     height: "462px",
@@ -126,6 +130,7 @@ const cardCompositions = [
       { bottom: "18px", left: "22%", rotation: 1, size: "w-14 h-5" },
     ],
     labelSide: "right",
+    photoOffset: { left: "48px", right: "44px", top: "34px" },
   },
 ];
 
@@ -258,7 +263,7 @@ export function Experiments() {
                     {[...Array(8)].map((_, i) => (
                       <motion.div
                         key={i}
-                        className="absolute h-2 w-2 border border-[rgba(128,111,91,0.18)] bg-[rgba(255,249,240,0.86)] shadow-sm"
+                        className="pointer-events-none absolute h-2 w-2 border border-[rgba(128,111,91,0.18)] bg-[rgba(255,249,240,0.86)] shadow-sm"
                         style={{
                           left: "50%",
                           top: "50%",
@@ -321,14 +326,14 @@ function CardContent({
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <PaperLayer
-        className="absolute inset-0 rounded-[26px] border border-[rgba(77,65,52,0.08)] bg-[rgba(209,201,189,0.46)]"
+        className="pointer-events-none absolute inset-0 rounded-[26px] border border-[rgba(77,65,52,0.08)] bg-[rgba(209,201,189,0.46)]"
         style={{
           transform: composition.stackOffset[0],
           boxShadow: "0 34px 58px rgba(43, 33, 22, 0.12)",
         }}
       />
       <PaperLayer
-        className="absolute inset-0 rounded-[26px] border border-[rgba(95,81,65,0.1)] bg-[rgba(233,227,217,0.76)]"
+        className="pointer-events-none absolute inset-0 rounded-[26px] border border-[rgba(95,81,65,0.1)] bg-[rgba(233,227,217,0.76)]"
         style={{
           transform: composition.stackOffset[1],
           boxShadow: "0 22px 42px rgba(43, 33, 22, 0.1)",
@@ -336,7 +341,7 @@ function CardContent({
       />
 
       <motion.div
-        className="absolute -inset-4 -z-10 rounded-[30px] bg-[rgba(118,102,84,0.1)] blur-2xl"
+        className="pointer-events-none absolute -inset-4 -z-10 rounded-[30px] bg-[rgba(118,102,84,0.1)] blur-2xl"
         animate={{
           opacity: activeExperiment === experiment.id ? 0.95 : 0.45,
           scale: activeExperiment === experiment.id ? 1.06 : 1,
@@ -352,7 +357,7 @@ function CardContent({
         }}
       >
         <div
-          className="absolute inset-0 opacity-[0.08] mix-blend-multiply"
+          className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
           style={{
             backgroundImage: paperTexture,
             backgroundSize: "220px 220px",
@@ -360,7 +365,7 @@ function CardContent({
         />
 
         <div
-          className="absolute inset-0 opacity-[0.05] mix-blend-multiply"
+          className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-multiply"
           style={{
             backgroundImage: grainTexture,
             backgroundSize: "260px 260px",
@@ -368,7 +373,7 @@ function CardContent({
         />
 
         <div
-          className="absolute left-0 top-0 h-full w-[28px] border-r border-[rgba(65,56,47,0.14)] bg-[linear-gradient(180deg,rgba(219,211,199,0.9),rgba(198,189,176,0.76))]"
+          className="pointer-events-none absolute left-0 top-0 h-full w-[28px] border-r border-[rgba(65,56,47,0.14)] bg-[linear-gradient(180deg,rgba(219,211,199,0.9),rgba(198,189,176,0.76))]"
           style={{
             boxShadow: "3px 0 8px rgba(28, 24, 20, 0.05)",
           }}
@@ -381,19 +386,29 @@ function CardContent({
         </div>
 
         <div
-          className="absolute right-0 top-0 h-14 w-14 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),transparent_62%)]"
+          className="pointer-events-none absolute right-0 top-0 h-14 w-14 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),transparent_62%)]"
           style={{ clipPath: "polygon(0 0,100% 0,100% 100%)" }}
         />
 
         <div
-          className="absolute inset-x-[48px] top-[32px] overflow-hidden rounded-[20px] border border-[rgba(70,61,52,0.16)] bg-[rgba(248,244,238,0.84)]"
+          className="absolute overflow-hidden rounded-[20px] border border-[rgba(70,61,52,0.16)] bg-[rgba(248,244,238,0.92)]"
           style={{
             height: composition.imageRatio,
             transform: `rotate(${composition.photoRotation}deg)`,
+            left: composition.photoOffset.left,
+            right: composition.photoOffset.right,
+            top: composition.photoOffset.top,
             boxShadow:
               "0 24px 36px rgba(36, 28, 21, 0.18), 0 2px 0 rgba(255,255,255,0.9) inset",
           }}
         >
+          <div
+            className="pointer-events-none absolute inset-0 z-20 rounded-[20px]"
+            style={{
+              boxShadow:
+                "inset 0 0 0 1px rgba(255,255,255,0.65), inset 0 14px 22px rgba(255,255,255,0.2), inset 0 -12px 18px rgba(34,26,19,0.06)",
+            }}
+          />
           <motion.div
             animate={{
               scale: activeExperiment === experiment.id ? 1.1 : 1,
@@ -407,7 +422,7 @@ function CardContent({
                 alt={experiment.title}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18),transparent_38%,rgba(45,33,19,0.12)_100%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),transparent_32%,rgba(45,33,19,0.08)_100%)]" />
             </div>
 
             <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
@@ -427,13 +442,25 @@ function CardContent({
           </motion.div>
 
           <div
-            className="absolute left-[7%] top-[7%] h-[46%] w-[72%] border border-[rgba(255,255,255,0.42)] bg-[linear-gradient(180deg,rgba(251,249,244,0.42),rgba(255,255,255,0.16))] backdrop-blur-[8px]"
+            className="pointer-events-none absolute right-[6%] top-[5.5%] h-[38%] w-[44%] border border-[rgba(255,255,255,0.62)] bg-[linear-gradient(180deg,rgba(255,255,255,0.24),rgba(255,255,255,0.06))]"
             style={{
               transform: `rotate(${composition.vellumRotation}deg)`,
-              boxShadow: "0 14px 30px rgba(22, 17, 13, 0.08)",
+              boxShadow:
+                "0 12px 22px rgba(22, 17, 13, 0.08), inset 0 0 0 1px rgba(255,255,255,0.35)",
             }}
           >
-            <div className="absolute inset-0 opacity-[0.14] mix-blend-multiply" style={{ backgroundImage: grainTexture }} />
+            <div
+              className="absolute inset-0 opacity-[0.08] mix-blend-multiply"
+              style={{ backgroundImage: grainTexture, backgroundSize: "220px 220px" }}
+            />
+            <div
+              className="absolute inset-y-0 left-[16%] w-px bg-[rgba(255,255,255,0.45)]"
+              style={{ filter: "blur(0.4px)" }}
+            />
+            <div
+              className="absolute right-[10%] top-[14%] h-[54%] w-[18%] rounded-full bg-[rgba(255,255,255,0.16)]"
+              style={{ filter: "blur(10px)" }}
+            />
           </div>
         </div>
 
@@ -588,7 +615,7 @@ function MetadataSlip({
 }) {
   return (
     <motion.div
-      className={`absolute z-30 border border-[rgba(110,88,68,0.16)] bg-[rgba(252,248,240,0.92)] px-3 py-2 shadow-[0_10px_20px_rgba(42,32,24,0.12)] ${className}`}
+      className={`pointer-events-none absolute z-30 border border-[rgba(110,88,68,0.16)] bg-[rgba(252,248,240,0.96)] px-3 py-2 shadow-[0_10px_20px_rgba(42,32,24,0.12)] ${className}`}
       style={style}
       whileHover={{ rotate: 0, scale: 1.1 }}
     >
@@ -615,7 +642,7 @@ function TapeStrip({
 }) {
   return (
     <div
-      className={`absolute z-30 ${tape.size} border border-[rgba(154,138,112,0.24)] bg-[linear-gradient(180deg,rgba(230,220,193,0.64),rgba(206,193,164,0.42))] backdrop-blur-[1px] shadow-[0_4px_10px_rgba(57,45,32,0.08)]`}
+      className={`pointer-events-none absolute z-30 ${tape.size} border border-[rgba(154,138,112,0.24)] bg-[linear-gradient(180deg,rgba(230,220,193,0.7),rgba(206,193,164,0.46))] shadow-[0_4px_10px_rgba(57,45,32,0.08)]`}
       style={{
         ...tape,
         transform: `rotate(${tape.rotation}deg)`,
