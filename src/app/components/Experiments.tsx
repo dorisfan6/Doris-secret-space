@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { type CSSProperties, useRef, useState } from "react";
-import { Code2, Sparkles, Shapes, Wand2, Camera } from "lucide-react";
+import { type CSSProperties, useMemo, useRef, useState } from "react";
+import { Camera, Code2, Shapes, Sparkles, Wand2 } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 const experiments = [
@@ -56,687 +56,487 @@ const experiments = [
   },
 ];
 
-const cardCompositions = [
+const deskLayouts = [
   {
-    height: "470px",
-    imageRatio: "57%",
-    rotation: -1.2,
-    photoRotation: -1.8,
-    vellumRotation: 1.2,
-    slipRotation: -2.4,
-    stackOffset: ["translate(14px, 14px)", "translate(7px, 6px)"],
-    tapes: [
-      { top: "14px", left: "22px", rotation: -6, size: "w-20 h-6" },
-      { top: "53%", right: "-6px", rotation: 88, size: "w-16 h-6" },
-    ],
-    labelSide: "right",
-    photoOffset: { left: "48px", right: "42px", top: "34px" },
+    cardHeight: "440px",
+    cardClassName: "lg:col-span-4 lg:mt-8",
+    wrapperStyle: { transform: "rotate(-2.2deg) translateY(14px)" },
+    photoStyle: { transform: "rotate(-2.6deg)" },
+    shadowStyle: { transform: "translate(14px, 14px) rotate(0.6deg)" },
+    backingStyle: { transform: "translate(7px, 8px) rotate(-0.8deg)" },
+    tapeA: { top: "18px", left: "28px", rotation: -5 },
+    tapeB: { right: "28px", top: "53%", rotation: 88 },
   },
   {
-    height: "490px",
-    imageRatio: "54%",
-    rotation: 1.1,
-    photoRotation: 1.6,
-    vellumRotation: -1.4,
-    slipRotation: 2.6,
-    stackOffset: ["translate(10px, 16px)", "translate(6px, 8px)"],
-    tapes: [
-      { top: "18px", right: "18px", rotation: 5, size: "w-18 h-6" },
-      { bottom: "112px", left: "-8px", rotation: -89, size: "w-16 h-6" },
-    ],
-    labelSide: "left",
-    photoOffset: { left: "46px", right: "46px", top: "34px" },
+    cardHeight: "470px",
+    cardClassName: "lg:col-span-3 lg:mt-28",
+    wrapperStyle: { transform: "rotate(1.3deg) translateY(-6px)" },
+    photoStyle: { transform: "rotate(1.8deg)" },
+    shadowStyle: { transform: "translate(10px, 16px) rotate(-0.4deg)" },
+    backingStyle: { transform: "translate(5px, 8px) rotate(0.6deg)" },
+    tapeA: { top: "16px", right: "24px", rotation: 4 },
+    tapeB: { left: "-6px", bottom: "88px", rotation: -90 },
   },
   {
-    height: "455px",
-    imageRatio: "59%",
-    rotation: -0.8,
-    photoRotation: -1.2,
-    vellumRotation: 1.8,
-    slipRotation: -1.8,
-    stackOffset: ["translate(12px, 12px)", "translate(6px, 5px)"],
-    tapes: [
-      { top: "14px", left: "26%", rotation: -2, size: "w-16 h-5" },
-      { bottom: "16px", right: "18%", rotation: 2, size: "w-14 h-5" },
-    ],
-    labelSide: "right",
-    photoOffset: { left: "50px", right: "40px", top: "34px" },
+    cardHeight: "420px",
+    cardClassName: "lg:col-span-5 lg:-mt-6",
+    wrapperStyle: { transform: "rotate(-0.7deg) translateY(22px)" },
+    photoStyle: { transform: "rotate(-1.1deg)" },
+    shadowStyle: { transform: "translate(12px, 10px) rotate(0.7deg)" },
+    backingStyle: { transform: "translate(5px, 6px) rotate(-0.5deg)" },
+    tapeA: { top: "20px", left: "24%", rotation: -1 },
+    tapeB: { right: "18%", bottom: "16px", rotation: 2 },
   },
   {
-    height: "482px",
-    imageRatio: "55%",
-    rotation: 0.7,
-    photoRotation: 1.2,
-    vellumRotation: -1.8,
-    slipRotation: 2,
-    stackOffset: ["translate(11px, 17px)", "translate(5px, 8px)"],
-    tapes: [
-      { top: "16px", left: "20px", rotation: -4, size: "w-18 h-6" },
-      { top: "50%", right: "-8px", rotation: 90, size: "w-16 h-6" },
-    ],
-    labelSide: "left",
-    photoOffset: { left: "46px", right: "46px", top: "35px" },
+    cardHeight: "452px",
+    cardClassName: "lg:col-span-4 lg:-mt-14",
+    wrapperStyle: { transform: "rotate(1deg) translateY(-10px)" },
+    photoStyle: { transform: "rotate(1.4deg)" },
+    shadowStyle: { transform: "translate(12px, 18px) rotate(-0.6deg)" },
+    backingStyle: { transform: "translate(6px, 8px) rotate(0.6deg)" },
+    tapeA: { top: "18px", left: "24px", rotation: -4 },
+    tapeB: { right: "-6px", top: "48%", rotation: 90 },
   },
   {
-    height: "462px",
-    imageRatio: "58%",
-    rotation: -0.6,
-    photoRotation: -1.5,
-    vellumRotation: 1.4,
-    slipRotation: -2.2,
-    stackOffset: ["translate(13px, 12px)", "translate(5px, 6px)"],
-    tapes: [
-      { top: "18px", right: "20px", rotation: 4, size: "w-20 h-6" },
-      { bottom: "18px", left: "22%", rotation: 1, size: "w-14 h-5" },
-    ],
-    labelSide: "right",
-    photoOffset: { left: "48px", right: "44px", top: "34px" },
+    cardHeight: "435px",
+    cardClassName: "lg:col-span-4 lg:-mt-2 lg:ml-10",
+    wrapperStyle: { transform: "rotate(-1.1deg) translateY(6px)" },
+    photoStyle: { transform: "rotate(-1.7deg)" },
+    shadowStyle: { transform: "translate(12px, 12px) rotate(0.4deg)" },
+    backingStyle: { transform: "translate(5px, 6px) rotate(-0.5deg)" },
+    tapeA: { top: "18px", right: "24px", rotation: 5 },
+    tapeB: { left: "22%", bottom: "18px", rotation: 1 },
   },
 ];
 
 const paperTexture =
-  'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'paper\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.04\' numOctaves=\'5\' result=\'noise\'/%3E%3CfeDiffuseLighting in=\'noise\' lighting-color=\'%23F5F1E8\' surfaceScale=\'2\'%3E%3CfeDistantLight azimuth=\'45\' elevation=\'60\'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23paper)\' fill=\'%23f5f1e8\'/%3E%3C/svg%3E")';
+  'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'paper\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.035\' numOctaves=\'5\' result=\'noise\'/%3E%3CfeDiffuseLighting in=\'noise\' lighting-color=\'%23F4EFE5\' surfaceScale=\'2.5\'%3E%3CfeDistantLight azimuth=\'315\' elevation=\'58\'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23paper)\' fill=\'%23f4efe5\'/%3E%3C/svg%3E")';
 
 const grainTexture =
-  'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")';
+  'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")';
 
 export function Experiments() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [hoveredExperiment, setHoveredExperiment] = useState<number | null>(null);
-  const [expandedExperiment, setExpandedExperiment] = useState<number | null>(null);
-  const activeExperiment = expandedExperiment ?? hoveredExperiment;
+  const isInView = useInView(ref, { once: true, amount: 0.18 });
+  const [selectedExperimentId, setSelectedExperimentId] = useState<number | null>(null);
+
+  const selectedExperiment = useMemo(
+    () => experiments.find((experiment) => experiment.id === selectedExperimentId) ?? null,
+    [selectedExperimentId],
+  );
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-transparent px-8 py-32" style={{ position: "relative" }}>
-      <div className="absolute inset-0 -z-10 backdrop-blur-[1.5px]" />
+    <section ref={ref} className="relative overflow-hidden px-6 py-28 md:px-8" style={{ position: "relative" }}>
+      <DeskBackground />
 
-      <div
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(245,241,232,0.94) 0%, rgba(239,234,224,0.98) 58%, rgba(230,224,214,0.96) 100%)",
-        }}
-      />
-
-      <div
-        className="absolute inset-0 -z-10 opacity-[0.85]"
-        style={{
-          backgroundImage: paperTexture,
-          backgroundSize: "220px 220px",
-        }}
-      />
-
-      <div
-        className="absolute inset-0 -z-10 opacity-[0.08] mix-blend-multiply"
-        style={{
-          backgroundImage: grainTexture,
-          backgroundSize: "320px 320px",
-        }}
-      />
-
-      <div
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(circle at 12% 10%, rgba(255,255,255,0.58), transparent 28%), radial-gradient(circle at 82% 72%, rgba(121,103,82,0.1), transparent 34%)",
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-[1500px]">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 text-center"
+          className="mb-14 max-w-3xl"
         >
-          <div className="inline-flex items-center gap-3 rounded-full border border-[rgba(55,46,38,0.14)] bg-[rgba(255,252,246,0.68)] px-5 py-2.5 shadow-[0_12px_28px_rgba(43,33,22,0.08)] backdrop-blur-sm">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#7d4b43] shadow-[0_0_0_4px_rgba(125,75,67,0.12)]" />
-            <span
-              className="text-[11px] uppercase tracking-[0.22em] text-stone-600"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Archive Portfolio
-            </span>
-          </div>
-          <h2
-            className="mt-7 text-5xl text-stone-900 md:text-6xl"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+          <div
+            className="inline-flex items-center gap-2 border border-[rgba(63,53,42,0.18)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] text-stone-600 shadow-[0_6px_16px_rgba(42,30,19,0.07)]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Printed studies,
-            <span className="ml-3 inline-block text-[#7d4b43]" style={{ fontFamily: "'Caveat', cursive" }}>
-              contact sheets
-            </span>
-            <span className="ml-3 inline-block">and media tests</span>
+            <span className="h-2 w-2 rounded-full bg-[#7d4b43]" />
+            Desk Archive
+          </div>
+          <h2 className="mt-5 text-4xl leading-tight text-stone-900 md:text-6xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Production proofs, printed studies, and archive folders.
           </h2>
           <p
-            className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-600 md:text-xl"
-            style={{ fontFamily: "'Kalam', cursive" }}
+            className="mt-4 max-w-2xl text-base leading-7 text-stone-600 md:text-lg"
+            style={{ fontFamily: "'IBM Plex Serif', serif" }}
           >
-            A desk of printed frames, clipped notes, and tactile experiments arranged like an evolving production archive.
+            Projects are laid out like real materials on a desk: proof prints, sheet protectors, paper labels, and a side folder that opens for deeper process views.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {experiments.map((experiment, index) => {
-            const composition = cardCompositions[index % cardCompositions.length];
+        <div className="grid gap-10 xl:grid-cols-[minmax(0,1.25fr)_440px] xl:items-start">
+          <div className="relative">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-12">
+              {experiments.map((experiment, index) => {
+                const layout = deskLayouts[index % deskLayouts.length];
+                const isSelected = selectedExperimentId === experiment.id;
 
-            return (
-              <motion.div
-                key={experiment.id}
-                initial={{ opacity: 0, y: 40, rotate: 0 }}
-                animate={isInView ? { opacity: 1, y: 0, rotate: composition.rotation } : {}}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                onMouseEnter={() => setHoveredExperiment(experiment.id)}
-                onMouseLeave={() => setHoveredExperiment((current) => (current === experiment.id ? null : current))}
-                data-cursor="hover"
-                className="group relative"
-                style={{
-                  transformStyle: "preserve-3d",
-                  height: composition.height,
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setExpandedExperiment(experiment.id)}
-                  className="block h-full w-full cursor-pointer text-left"
-                  style={{ cursor: "pointer" }}
-                >
-                  <CardContent
-                    experiment={experiment}
-                    composition={composition}
-                    index={index}
-                    activeExperiment={activeExperiment}
-                  />
-                </button>
-
-                {activeExperiment === experiment.id && (
+                return (
                   <motion.div
-                    className="pointer-events-none absolute inset-x-[16%] top-[18%] h-[24%] rounded-full bg-[rgba(255,255,255,0.12)]"
-                    animate={{
-                      x: [-6, 10, -6],
-                      opacity: expandedExperiment === experiment.id ? 0.28 : 0.18,
-                    }}
-                    transition={{
-                      duration: 2.8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    style={{ filter: "blur(16px)" }}
-                  />
-                )}
-              </motion.div>
-            );
-          })}
+                    key={experiment.id}
+                    initial={{ opacity: 0, y: 36 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.55, delay: index * 0.08 }}
+                    className={`relative ${layout.cardClassName}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelectedExperimentId(experiment.id)}
+                      data-cursor="hover"
+                      className="group block w-full text-left"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <ExperimentArtifact experiment={experiment} layout={layout} index={index} isSelected={isSelected} />
+                    </button>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="xl:sticky xl:top-28">
+            <SideFolder experiment={selectedExperiment} onClose={() => setSelectedExperimentId(null)} />
+          </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {expandedExperiment ? (
-          <ExpandedExperimentFolder
-            experiment={experiments.find((item) => item.id === expandedExperiment)!}
-            onClose={() => setExpandedExperiment(null)}
-          />
-        ) : null}
-      </AnimatePresence>
     </section>
   );
 }
 
-function CardContent({
+function DeskBackground() {
+  return (
+    <>
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(245,241,233,0.96) 0%, rgba(236,230,220,0.98) 54%, rgba(225,218,207,0.97) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.84]"
+        style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
+      />
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.06] mix-blend-multiply"
+        style={{ backgroundImage: grainTexture, backgroundSize: "320px 320px" }}
+      />
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(circle at 14% 10%, rgba(255,255,255,0.58), transparent 26%), radial-gradient(circle at 86% 76%, rgba(105,87,66,0.1), transparent 34%)",
+        }}
+      />
+    </>
+  );
+}
+
+function ExperimentArtifact({
   experiment,
-  composition,
+  layout,
   index,
-  activeExperiment,
+  isSelected,
 }: {
   experiment: (typeof experiments)[number];
-  composition: (typeof cardCompositions)[number];
+  layout: (typeof deskLayouts)[number];
   index: number;
-  activeExperiment: number | null;
+  isSelected: boolean;
 }) {
   const Icon = experiment.icon;
 
   return (
     <motion.div
-      className="relative h-full"
-      whileHover={{
-        y: -12,
-        rotateX: 3,
-        rotateY: index % 2 === 0 ? 2 : -2,
-        scale: 1.02,
-        rotate: 0,
+      animate={{
+        y: isSelected ? -8 : 0,
+        rotate: isSelected ? 0 : undefined,
+        scale: isSelected ? 1.01 : 1,
       }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ type: "spring", stiffness: 220, damping: 26 }}
+      className="relative"
+      style={{ height: layout.cardHeight, ...layout.wrapperStyle, transformStyle: "preserve-3d" }}
     >
       <PaperLayer
-        className="pointer-events-none absolute inset-0 rounded-[26px] border border-[rgba(77,65,52,0.08)] bg-[rgba(209,201,189,0.46)]"
+        className="absolute inset-0 rounded-[18px] border border-[rgba(89,76,59,0.08)] bg-[rgba(211,204,194,0.52)]"
         style={{
-          transform: composition.stackOffset[0],
-          boxShadow: "0 34px 58px rgba(43, 33, 22, 0.12)",
+          ...layout.shadowStyle,
+          boxShadow: "0 28px 42px rgba(46, 34, 24, 0.12)",
         }}
       />
       <PaperLayer
-        className="pointer-events-none absolute inset-0 rounded-[26px] border border-[rgba(95,81,65,0.1)] bg-[rgba(233,227,217,0.76)]"
+        className="absolute inset-0 rounded-[18px] border border-[rgba(110,95,78,0.1)] bg-[rgba(237,232,223,0.76)]"
         style={{
-          transform: composition.stackOffset[1],
-          boxShadow: "0 22px 42px rgba(43, 33, 22, 0.1)",
+          ...layout.backingStyle,
+          boxShadow: "0 16px 26px rgba(46, 34, 24, 0.09)",
         }}
-      />
-
-      <motion.div
-        className="pointer-events-none absolute -inset-4 -z-10 rounded-[30px] bg-[rgba(118,102,84,0.1)] blur-2xl"
-        animate={{
-          opacity: activeExperiment === experiment.id ? 0.95 : 0.45,
-          scale: activeExperiment === experiment.id ? 1.06 : 1,
-        }}
-        transition={{ duration: 0.3 }}
       />
 
       <div
-        className="relative h-full overflow-hidden rounded-[26px] border border-[rgba(77,65,52,0.14)] bg-[linear-gradient(180deg,rgba(251,248,241,0.98),rgba(239,233,223,0.98))]"
+        className="relative h-full overflow-hidden rounded-[18px] border border-[rgba(79,67,53,0.18)] bg-[linear-gradient(180deg,rgba(248,244,236,0.98),rgba(238,232,222,0.98))]"
         style={{
-          boxShadow:
-            "0 30px 58px rgba(38, 29, 20, 0.16), 0 10px 18px rgba(255,255,255,0.7) inset, -6px -8px 24px rgba(115, 100, 83, 0.06) inset",
+          boxShadow: isSelected
+            ? "0 34px 62px rgba(38,29,20,0.2), 0 1px 0 rgba(255,255,255,0.76) inset"
+            : "0 24px 44px rgba(38,29,20,0.14), 0 1px 0 rgba(255,255,255,0.76) inset",
         }}
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
-          style={{
-            backgroundImage: paperTexture,
-            backgroundSize: "220px 220px",
-          }}
+          style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-multiply"
+          style={{ backgroundImage: grainTexture, backgroundSize: "280px 280px" }}
         />
 
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-multiply"
-          style={{
-            backgroundImage: grainTexture,
-            backgroundSize: "260px 260px",
-          }}
-        />
-
-        <div
-          className="pointer-events-none absolute left-0 top-0 h-full w-[28px] border-r border-[rgba(65,56,47,0.14)] bg-[linear-gradient(180deg,rgba(219,211,199,0.9),rgba(198,189,176,0.76))]"
-          style={{
-            boxShadow: "3px 0 8px rgba(28, 24, 20, 0.05)",
-          }}
-        >
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-[24px] border-r border-[rgba(79,67,53,0.14)] bg-[linear-gradient(180deg,rgba(216,209,198,0.92),rgba(198,189,176,0.78))]">
           <div className="flex h-full flex-col items-center justify-evenly py-5">
-            {Array.from({ length: 13 }).map((_, i) => (
-              <div key={i} className="h-2.5 w-1.5 rounded-full bg-[rgba(56,48,41,0.42)]" />
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="h-2.5 w-1.5 rounded-full bg-[rgba(58,48,39,0.4)]" />
             ))}
           </div>
         </div>
 
-        <div
-          className="pointer-events-none absolute right-0 top-0 h-14 w-14 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),transparent_62%)]"
-          style={{ clipPath: "polygon(0 0,100% 0,100% 100%)" }}
-        />
-
-        <div
-          className="absolute overflow-hidden rounded-[20px] border border-[rgba(70,61,52,0.16)] bg-[rgba(248,244,238,0.92)]"
-          style={{
-            height: composition.imageRatio,
-            transform: `rotate(${composition.photoRotation}deg)`,
-            left: composition.photoOffset.left,
-            right: composition.photoOffset.right,
-            top: composition.photoOffset.top,
-            boxShadow:
-              "0 24px 36px rgba(36, 28, 21, 0.18), 0 2px 0 rgba(255,255,255,0.9) inset",
-          }}
-        >
+        <div className="absolute inset-x-[34px] top-[30px] bottom-[108px]">
           <div
-            className="pointer-events-none absolute inset-0 z-20 rounded-[20px]"
+            className="absolute inset-0 overflow-hidden rounded-[14px] border border-[rgba(70,59,48,0.18)] bg-[rgba(251,249,244,0.92)] p-3"
             style={{
-              boxShadow:
-                "inset 0 0 0 1px rgba(255,255,255,0.52), inset 0 8px 12px rgba(255,255,255,0.1), inset 0 -8px 12px rgba(34,26,19,0.04)",
+              ...layout.photoStyle,
+              boxShadow: "0 20px 28px rgba(34,25,18,0.16), 0 1px 0 rgba(255,255,255,0.78) inset",
             }}
-          />
-          <motion.div
-            animate={{
-              scale: activeExperiment === experiment.id ? 1.1 : 1,
-            }}
-            transition={{ duration: 0.6 }}
-            className="relative h-full w-full bg-white p-4 pb-14"
           >
-            <div className="relative h-full w-full overflow-hidden border border-[rgba(62,52,43,0.12)] bg-[#e8e2d8]">
-              <ImageWithFallback
-                src={experiment.image}
-                alt={experiment.title}
-                className="h-full w-full object-cover"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),transparent_30%,rgba(45,33,19,0.04)_100%)]" />
+            <div className="relative h-full overflow-hidden border border-[rgba(67,56,46,0.12)] bg-[#ebe6dd]">
+              <motion.div
+                whileHover={{ scale: 1.06 }}
+                transition={{ duration: 0.45 }}
+                className="h-full w-full"
+              >
+                <ImageWithFallback src={experiment.image} alt={experiment.title} className="h-full w-full object-cover" />
+              </motion.div>
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),transparent_28%,rgba(43,33,22,0.05)_100%)]" />
             </div>
 
-            <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
-              <div
-                className="text-[10px] uppercase tracking-[0.22em] text-stone-500"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
+            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+              <span className="text-[9px] uppercase tracking-[0.24em] text-stone-500" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 proof print
-              </div>
-              <div
-                className="text-[10px] uppercase tracking-[0.18em] text-stone-400"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.18em] text-stone-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 no. {String(index + 1).padStart(2, "0")}
-              </div>
+              </span>
             </div>
-          </motion.div>
 
-          <div
-            className="pointer-events-none absolute right-[8%] top-[7%] h-[24%] w-[28%] border border-[rgba(255,255,255,0.48)] bg-[linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.03))]"
-            style={{
-              transform: `rotate(${composition.vellumRotation}deg)`,
-              boxShadow:
-                "0 8px 16px rgba(22, 17, 13, 0.06), inset 0 0 0 1px rgba(255,255,255,0.22)",
-            }}
-          >
             <div
-              className="absolute inset-0 opacity-[0.08] mix-blend-multiply"
-              style={{ backgroundImage: grainTexture, backgroundSize: "220px 220px" }}
-            />
-            <div
-              className="absolute right-[12%] top-[18%] h-[44%] w-[14%] rounded-full bg-[rgba(255,255,255,0.12)]"
-              style={{ filter: "blur(7px)" }}
-            />
+              className="pointer-events-none absolute right-[7%] top-[8%] h-[30%] w-[32%] border border-[rgba(255,255,255,0.56)] bg-[linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.03))]"
+              style={{
+                boxShadow: "0 8px 14px rgba(24,18,13,0.05), inset 0 0 0 1px rgba(255,255,255,0.18)",
+                backdropFilter: "blur(0.3px)",
+              }}
+            >
+              <div className="absolute inset-0 opacity-[0.06] mix-blend-multiply" style={{ backgroundImage: grainTexture, backgroundSize: "220px 220px" }} />
+            </div>
           </div>
+
+          <TapeStrip style={layout.tapeA} />
+          <TapeStrip style={layout.tapeB} />
+
+          <MetadataSlip year={experiment.year} title={experiment.title} />
         </div>
 
-        <MetadataSlip
-          className={composition.labelSide === "right" ? "right-[18px]" : "left-[44px]"}
-          style={{
-            top: composition.labelSide === "right" ? "22px" : "24px",
-            transform: `rotate(${composition.slipRotation}deg)`,
-          }}
-          year={experiment.year}
-        />
-
-        <div className="absolute bottom-0 left-0 right-0 p-6 pl-[46px]">
+        <div className="absolute bottom-0 left-0 right-0 p-4 pl-[36px]">
           <div
-            className="relative overflow-hidden rounded-[22px] border border-[rgba(69,58,48,0.14)] bg-[linear-gradient(180deg,rgba(255,252,246,0.78),rgba(246,240,231,0.98))] px-5 pb-5 pt-4"
-            style={{
-              boxShadow: "0 16px 30px rgba(38, 29, 20, 0.08), 0 1px 0 rgba(255,255,255,0.6) inset",
-            }}
+            className="relative border border-[rgba(80,69,57,0.14)] bg-[rgba(253,250,244,0.9)] px-4 pb-4 pt-3"
+            style={{ boxShadow: "0 10px 18px rgba(41,30,20,0.07)" }}
           >
-            <div
-              className="absolute inset-0 opacity-[0.05] mix-blend-multiply"
-              style={{
-                backgroundImage: paperTexture,
-                backgroundSize: "220px 220px",
-              }}
-            />
-
-            <div className="relative z-10">
-              <div className="mb-4 flex items-start justify-between gap-4">
-                <motion.div
-                  className="relative flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(72,60,49,0.14)] bg-[rgba(255,255,255,0.76)]"
-                  animate={{
-                    scale: activeExperiment === experiment.id ? 1.15 : 1,
-                    rotate: activeExperiment === experiment.id ? 8 : 0,
-                  }}
-                  transition={{ duration: 0.4 }}
-                  style={{
-                    boxShadow: "0 8px 20px rgba(40, 32, 24, 0.12)",
-                  }}
-                >
-                  <Icon className="h-6 w-6 text-[#6e5844]" />
-                  <div className="absolute inset-[6px] rounded-full border border-dashed border-[rgba(110,88,68,0.22)]" />
-                </motion.div>
-
+            <div className="mb-3 flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
                 <div
-                  className="rounded-[4px] border border-[rgba(125,75,67,0.18)] bg-[rgba(125,75,67,0.09)] px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[#7d4b43]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(80,69,57,0.14)] bg-[rgba(246,242,236,0.96)]"
+                  style={{ boxShadow: "0 6px 14px rgba(41,30,20,0.08)" }}
+                >
+                  <Icon className="h-4.5 w-4.5 text-[#5f4c3c]" />
+                </div>
+                <span
+                  className="border border-[rgba(125,75,67,0.16)] bg-[rgba(125,75,67,0.08)] px-2 py-1 text-[9px] uppercase tracking-[0.22em] text-[#7d4b43]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  archived
-                </div>
+                  file open
+                </span>
               </div>
-
-              <div className="flex-1">
-                <h3
-                  className="relative mb-2 inline-block text-[1.9rem] leading-none text-stone-900 transition-colors group-hover:text-[#7d4b43]"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {experiment.title}
-                  <motion.svg
-                    className="absolute -bottom-1 left-0 h-2 w-full opacity-0 group-hover:opacity-100"
-                    viewBox="0 0 100 6"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: activeExperiment === experiment.id ? 1 : 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <path
-                      d="M 2 3 Q 25 1, 50 3 T 98 3"
-                      stroke="#7d4b43"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </motion.svg>
-                </h3>
-                <p
-                  className="text-sm font-light leading-relaxed text-stone-600"
-                  style={{ fontFamily: "'Kalam', cursive" }}
-                >
-                  {experiment.description}
-                </p>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {experiment.tags.map((tag, tagIndex) => (
-                  <motion.span
-                    key={tagIndex}
-                    className="border border-[rgba(73,62,53,0.14)] bg-[rgba(255,251,245,0.88)] px-2.5 py-1 text-xs text-stone-700"
-                    style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      transform: `rotate(${tagIndex % 2 === 0 ? -0.8 : 0.8}deg)`,
-                      boxShadow: "0 3px 8px rgba(35, 26, 18, 0.07)",
-                    }}
-                    whileHover={{
-                      y: -2,
-                      rotate: 0,
-                      boxShadow: "0 8px 14px rgba(35,26,18,0.14)",
-                    }}
-                  >
-                    {tag}
-                  </motion.span>
-                ))}
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: activeExperiment === experiment.id ? 1 : 0,
-                  y: activeExperiment === experiment.id ? 0 : 10,
-                }}
-                transition={{ duration: 0.3 }}
-                className="mt-4"
-              >
-                <a
-                  href={experiment.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(event) => event.stopPropagation()}
-                  className="block w-full border border-[rgba(26,22,18,0.08)] bg-[#231d19] py-2.5 text-center text-sm tracking-[0.2em] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
-                  style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                  }}
-                >
-                  LAUNCH PROJECT →
-                </a>
-              </motion.div>
+              <span className="text-[9px] uppercase tracking-[0.18em] text-stone-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                click to inspect
+              </span>
             </div>
+
+            <h3 className="text-[1.7rem] leading-none text-stone-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+              {experiment.title}
+            </h3>
+            <motion.div
+              animate={{ scaleX: isSelected ? 1 : 0.55, opacity: isSelected ? 1 : 0.62 }}
+              transition={{ duration: 0.35 }}
+              className="mt-2 h-[2px] origin-left bg-[#7d4b43]"
+            />
+            <p className="mt-3 text-[13px] leading-6 text-stone-600" style={{ fontFamily: "'IBM Plex Serif', serif" }}>
+              {experiment.description}
+            </p>
           </div>
         </div>
-
-        {composition.tapes.map((tape, tapeIndex) => (
-          <TapeStrip key={tapeIndex} tape={tape} />
-        ))}
       </div>
     </motion.div>
   );
 }
 
-function ExpandedExperimentFolder({
+function SideFolder({
   experiment,
   onClose,
 }: {
-  experiment: (typeof experiments)[number];
+  experiment: (typeof experiments)[number] | null;
   onClose: () => void;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[120] flex items-center justify-center px-5 py-10"
-    >
-      <button
-        type="button"
-        aria-label="Close archive folder"
-        onClick={onClose}
-        className="absolute inset-0 bg-[rgba(17,14,11,0.34)] backdrop-blur-[4px]"
-      />
+    <div className="relative min-h-[560px]">
+      <AnimatePresence mode="wait">
+        {experiment ? (
+          <motion.div
+            key={experiment.id}
+            initial={{ opacity: 0, x: 38, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 28, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="relative"
+          >
+            <div
+              className="absolute left-0 top-14 h-[82%] w-7 rounded-l-[14px] border border-r-0 border-[rgba(84,66,45,0.22)] bg-[linear-gradient(180deg,#c49a62,#9a7346)]"
+              style={{ transform: "translateX(-22px)", boxShadow: "-8px 14px 18px rgba(39, 28, 18, 0.14)" }}
+            />
+            <div
+              className="absolute inset-x-[8%] top-0 h-16 rounded-t-[14px] border border-[rgba(84,66,45,0.22)] bg-[linear-gradient(180deg,#caa46b,#9a7346)]"
+              style={{ transform: "translateY(-14px)", boxShadow: "0 14px 18px rgba(39, 28, 18, 0.12)" }}
+            />
 
-      <motion.div
-        initial={{ y: 46, scale: 0.94, rotateX: 8 }}
-        animate={{ y: 0, scale: 1, rotateX: 0 }}
-        exit={{ y: 30, scale: 0.97, opacity: 0 }}
-        transition={{ duration: 0.42, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-6xl"
-        style={{ transformStyle: "preserve-3d" }}
-      >
-        <div
-          className="absolute inset-x-[4%] top-0 h-16 rounded-t-[20px] border border-[rgba(77,61,43,0.18)] bg-[linear-gradient(180deg,#b6905e,#8f6d46)]"
-          style={{
-            transform: "translateY(-16px)",
-            boxShadow: "0 14px 22px rgba(42, 29, 17, 0.18)",
-          }}
-        />
-
-        <div
-          className="relative overflow-hidden rounded-[28px] border border-[rgba(67,57,47,0.2)] bg-[linear-gradient(180deg,rgba(244,238,228,0.99),rgba(233,226,214,0.99))] p-6 md:p-8"
-          style={{
-            boxShadow:
-              "0 42px 90px rgba(18, 14, 11, 0.28), 0 2px 0 rgba(255,255,255,0.74) inset",
-          }}
-        >
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
-            style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
-          />
-
-          <div className="relative z-10">
-            <div className="mb-6 flex items-start justify-between gap-4">
-              <div>
-                <div
-                  className="text-[11px] uppercase tracking-[0.22em] text-[#7d4b43]"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  Archive Folder Opened
-                </div>
-                <h3
-                  className="mt-3 text-4xl text-stone-900 md:text-5xl"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {experiment.title}
-                </h3>
-                <p
-                  className="mt-3 max-w-3xl text-base leading-7 text-stone-600"
-                  style={{ fontFamily: "'Kalam', cursive" }}
-                >
-                  {experiment.description}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-full border border-[rgba(67,57,47,0.16)] bg-[rgba(255,252,247,0.86)] px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-stone-600"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                Close
-              </button>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+            <div
+              className="relative overflow-hidden rounded-[18px] border border-[rgba(74,61,48,0.2)] bg-[linear-gradient(180deg,rgba(244,238,228,0.99),rgba(232,224,213,0.99))] p-5 md:p-6"
+              style={{
+                boxShadow: "0 34px 64px rgba(22, 17, 12, 0.2), 0 1px 0 rgba(255,255,255,0.74) inset",
+              }}
+            >
               <div
-                className="relative overflow-hidden rounded-[24px] border border-[rgba(71,61,52,0.18)] bg-[rgba(255,255,255,0.56)] p-4"
-                style={{ boxShadow: "0 20px 34px rgba(36,28,20,0.12)" }}
-              >
-                <div className="pointer-events-none absolute left-0 top-0 h-full w-7 border-r border-[rgba(65,56,47,0.14)] bg-[linear-gradient(180deg,rgba(219,211,199,0.9),rgba(198,189,176,0.76))]" />
-                <div className="relative ml-6 grid gap-5 md:grid-cols-2">
-                  {[0, 1, 2, 3].map((item) => (
-                    <div
-                      key={item}
-                      className="relative overflow-hidden rounded-[18px] border border-[rgba(68,58,49,0.16)] bg-[rgba(255,255,255,0.92)] p-3"
-                      style={{ boxShadow: "0 18px 28px rgba(36,28,20,0.1)" }}
-                    >
-                      <div className="aspect-[4/3] overflow-hidden border border-[rgba(62,52,43,0.12)] bg-[#e8e2d8]">
-                        <ImageWithFallback
-                          src={experiment.image}
-                          alt={`${experiment.title} preview ${item + 1}`}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                      <div className="mt-3 flex items-center justify-between">
-                        <span
-                          className="text-[10px] uppercase tracking-[0.2em] text-stone-500"
-                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                        >
-                          progress {String(item + 1).padStart(2, "0")}
-                        </span>
-                        <span
-                          className="text-[10px] uppercase tracking-[0.16em] text-stone-400"
-                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                        >
-                          sheet
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-multiply"
+                style={{ backgroundImage: paperTexture, backgroundSize: "220px 220px" }}
+              />
 
-              <div className="space-y-5">
-                <div
-                  className="rounded-[20px] border border-[rgba(67,57,47,0.16)] bg-[rgba(255,251,245,0.92)] p-5"
-                  style={{ boxShadow: "0 14px 24px rgba(36,28,20,0.08)" }}
-                >
-                  <div
-                    className="text-[10px] uppercase tracking-[0.22em] text-[#7d4b43]"
+              <div className="relative z-10">
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <div>
+                    <div
+                      className="inline-flex items-center gap-2 border border-[rgba(84,66,45,0.18)] bg-[rgba(255,252,247,0.82)] px-2.5 py-1 text-[9px] uppercase tracking-[0.24em] text-[#7d4b43]"
+                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      Open Folder
+                    </div>
+                    <h3 className="mt-3 text-3xl leading-tight text-stone-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      {experiment.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-stone-600" style={{ fontFamily: "'IBM Plex Serif', serif" }}>
+                      {experiment.description}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="border border-[rgba(74,61,48,0.14)] bg-[rgba(255,251,246,0.9)] px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-stone-500"
                     style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
-                    Project Tags
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {experiment.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="border border-[rgba(73,62,53,0.14)] bg-[rgba(255,251,245,0.88)] px-2.5 py-1 text-xs text-stone-700"
-                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    close
+                  </button>
+                </div>
+
+                <div
+                  className="relative overflow-hidden border border-[rgba(76,64,52,0.16)] bg-[rgba(255,255,255,0.5)] p-4"
+                  style={{ boxShadow: "0 18px 26px rgba(39, 28, 18, 0.08)" }}
+                >
+                  <div className="absolute right-5 top-5 h-16 w-16 border border-[rgba(255,255,255,0.48)] bg-[linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.04))]" />
+                  <div className="grid grid-cols-2 gap-4">
+                    {[0, 1, 2, 3].map((item) => (
+                      <div
+                        key={item}
+                        className="relative border border-[rgba(73,62,53,0.14)] bg-[rgba(253,250,245,0.94)] p-2.5"
+                        style={{ boxShadow: "0 10px 16px rgba(41,30,20,0.08)" }}
                       >
-                        {tag}
-                      </span>
+                        <div className="aspect-[4/3] overflow-hidden border border-[rgba(70,58,46,0.12)] bg-[#e9e2d8]">
+                          <ImageWithFallback
+                            src={experiment.image}
+                            alt={`${experiment.title} progress ${item + 1}`}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        <div className="mt-2 flex items-center justify-between">
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-stone-500" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                            progress {String(item + 1).padStart(2, "0")}
+                          </span>
+                          <span className="text-[9px] uppercase tracking-[0.16em] text-stone-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                            sheet
+                          </span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
 
-                <a
-                  href={experiment.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full border border-[rgba(26,22,18,0.08)] bg-[#231d19] py-3 text-center text-sm tracking-[0.2em] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
-                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-                >
-                  LAUNCH PROJECT →
-                </a>
+                <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.22em] text-stone-500" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      metadata
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {experiment.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="border border-[rgba(73,62,53,0.14)] bg-[rgba(255,251,245,0.88)] px-2.5 py-1 text-[11px] text-stone-700"
+                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <a
+                    href={experiment.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center border border-[rgba(26,22,18,0.08)] bg-[#231d19] px-5 py-3 text-[11px] uppercase tracking-[0.24em] text-stone-100 shadow-[0_12px_22px_rgba(24,18,14,0.18)] transition-all hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[0_16px_28px_rgba(24,18,14,0.24)]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Launch Project
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="folder-placeholder"
+            initial={{ opacity: 0, x: 18 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            className="relative pt-10"
+          >
+            <div
+              className="absolute left-0 top-20 h-[74%] w-7 rounded-l-[14px] border border-r-0 border-[rgba(84,66,45,0.18)] bg-[linear-gradient(180deg,#c49a62,#9a7346)]"
+              style={{ transform: "translateX(-22px)", boxShadow: "-8px 14px 18px rgba(39, 28, 18, 0.12)" }}
+            />
+            <div
+              className="absolute inset-x-[12%] top-0 h-14 rounded-t-[14px] border border-[rgba(84,66,45,0.18)] bg-[linear-gradient(180deg,#caa46b,#9a7346)]"
+              style={{ transform: "translateY(-10px)" }}
+            />
+            <div
+              className="relative border border-[rgba(74,61,48,0.18)] bg-[linear-gradient(180deg,rgba(242,236,226,0.99),rgba(232,224,213,0.99))] p-6"
+              style={{ boxShadow: "0 30px 58px rgba(22,17,12,0.16)" }}
+            >
+              <div className="text-[10px] uppercase tracking-[0.22em] text-[#7d4b43]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                Side Folder
+              </div>
+              <h3 className="mt-3 text-3xl text-stone-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Open a project file
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-stone-600" style={{ fontFamily: "'IBM Plex Serif', serif" }}>
+                Click any proof print on the desk to pull its folder open here. The project link stays separate, so browsing the archive never throws you out of the page.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -747,52 +547,48 @@ function PaperLayer({
   className: string;
   style: CSSProperties;
 }) {
-  return <div aria-hidden="true" className={className} style={style} />;
+  return <div aria-hidden="true" className={`pointer-events-none ${className}`} style={style} />;
 }
 
 function MetadataSlip({
-  className,
-  style,
+  title,
   year,
 }: {
-  className: string;
-  style: CSSProperties;
+  title: string;
   year: string;
 }) {
   return (
-    <motion.div
-      className={`pointer-events-none absolute z-30 border border-[rgba(110,88,68,0.16)] bg-[rgba(252,248,240,0.96)] px-3 py-2 shadow-[0_10px_20px_rgba(42,32,24,0.12)] ${className}`}
-      style={style}
-      whileHover={{ rotate: 0, scale: 1.1 }}
+    <div
+      className="pointer-events-none absolute right-[16px] top-[16px] z-20 max-w-[150px] border border-[rgba(93,78,62,0.16)] bg-[rgba(251,247,241,0.96)] px-3 py-2 shadow-[0_10px_20px_rgba(42,32,24,0.12)]"
+      style={{ transform: "rotate(-2deg)" }}
     >
-      <div
-        className="text-[10px] uppercase tracking-[0.2em] text-stone-500"
-        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-      >
+      <div className="text-[9px] uppercase tracking-[0.22em] text-stone-500" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
         file date
       </div>
-      <div
-        className="mt-1 text-sm text-[#7d4b43]"
-        style={{ fontFamily: "'Playfair Display', serif" }}
-      >
+      <div className="mt-1 text-sm text-stone-800" style={{ fontFamily: "'Playfair Display', serif" }}>
         {year}
       </div>
-    </motion.div>
+      <div className="mt-2 border-t border-[rgba(93,78,62,0.12)] pt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        {title}
+      </div>
+    </div>
   );
 }
 
 function TapeStrip({
-  tape,
+  style,
 }: {
-  tape: { top?: string; right?: string; bottom?: string; left?: string; rotation: number; size: string };
+  style: { top?: string; right?: string; bottom?: string; left?: string; rotation: number };
 }) {
+  const { rotation, ...positionStyle } = style;
+
   return (
     <div
-      className={`pointer-events-none absolute z-30 ${tape.size} border border-[rgba(154,138,112,0.24)] bg-[linear-gradient(180deg,rgba(230,220,193,0.7),rgba(206,193,164,0.46))] shadow-[0_4px_10px_rgba(57,45,32,0.08)]`}
+      className="pointer-events-none absolute z-20 h-5 w-20 border border-[rgba(164,146,116,0.24)] bg-[linear-gradient(180deg,rgba(232,223,198,0.7),rgba(208,194,164,0.44))] shadow-[0_4px_10px_rgba(57,45,32,0.08)]"
       style={{
-        ...tape,
-        transform: `rotate(${tape.rotation}deg)`,
-        clipPath: "polygon(5% 6%, 95% 0%, 100% 14%, 96% 100%, 2% 94%, 0% 10%)",
+        ...positionStyle,
+        transform: `rotate(${rotation}deg)`,
+        clipPath: "polygon(5% 5%, 95% 0%, 100% 18%, 96% 100%, 4% 95%, 0% 8%)",
       }}
     />
   );
