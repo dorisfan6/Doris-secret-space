@@ -258,7 +258,7 @@ export function Hero() {
               }}
             >
               <ImageWithFallback
-                src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/ChatGPT%20Image%20Mar%2026,%202026,%2001_36_56%20PM.png"
+                src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/fanC2.png"
                 alt="Education"
                 className="w-full h-full object-cover brightness-95 contrast-110"
               />

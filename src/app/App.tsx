@@ -251,7 +251,7 @@ export default function App() {
             style={{ cursor: 'pointer' }}
           >
             <img 
-              src="https://flftewuhbgszetogrtot.supabase.co/storage/v1/object/public/pic/Untitled_Artwork.gif" 
+              src="https://nmdzqrdfflnsqelxgxjz.supabase.co/storage/v1/object/public/dordor/Untitled_Artwork.gif" 
               alt="Scroll to top"
               className="w-full h-full object-cover"
             />
