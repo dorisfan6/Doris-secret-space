@@ -183,7 +183,7 @@ export default function App() {
               opacity: headerVisible ? 1 : 0 
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-6 right-4 md:top-10 md:right-10 z-50 hidden md:flex gap-8"
+            className="fixed top-6 right-4 md:top-10 md:right-10 z-50 flex gap-2 md:gap-8"
             style={{ cursor: 'none' }}
           >
             {[
@@ -196,7 +196,7 @@ export default function App() {
                 key={item.label}
                 href={`#${item.id}`}
                 data-cursor="hover"
-                className="relative text-stone-700 hover:text-amber-800 transition-colors text-sm font-medium tracking-wide"
+                className="relative text-stone-700 hover:text-amber-800 transition-colors text-[10px] md:text-sm font-medium tracking-wide"
                 whileHover={{ y: -2, scale: 1.05 }}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}

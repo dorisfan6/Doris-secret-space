@@ -153,7 +153,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('education')}
         data-cursor="hover"
-        className="absolute top-12 left-4 md:top-24 md:left-26 cursor-pointer group hidden md:block"
+        className="absolute top-20 left-2 md:top-24 md:left-26 cursor-pointer group scale-[0.5] md:scale-100 origin-top-left"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-8, 8]),
           y: useTransform(mouseYSpring, [-1, 1], [-6, 6]),
@@ -331,7 +331,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('contact')}
         data-cursor="hover"
-        className="absolute top-12 right-4 md:top-18 md:right-32 cursor-pointer group hidden md:block"
+        className="absolute top-20 right-2 md:top-18 md:right-32 cursor-pointer group scale-[0.4] md:scale-100 origin-top-right"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-10, 10]),
           y: useTransform(mouseYSpring, [-1, 1], [-8, 8]),
@@ -441,7 +441,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('about')}
         data-cursor="hover"
-        className="absolute bottom-8 left-4 md:bottom-12 md:left-8 cursor-pointer group hidden md:block"
+        className="absolute bottom-20 left-2 md:bottom-12 md:left-8 cursor-pointer group scale-[0.45] md:scale-100 origin-bottom-left"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-12, 12]),
           y: useTransform(mouseYSpring, [-1, 1], [-10, 10]),
@@ -482,7 +482,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollToSection('experiments')}
         data-cursor="hover"
-        className="absolute bottom-8 right-4 md:bottom-24 md:right-10 cursor-pointer group hidden md:block"
+        className="absolute bottom-20 right-2 md:bottom-24 md:right-10 cursor-pointer group scale-[0.35] md:scale-100 origin-bottom-right"
         style={{
           x: useTransform(mouseXSpring, [-1, 1], [-14, 14]),
           y: useTransform(mouseYSpring, [-1, 1], [-12, 12]),
