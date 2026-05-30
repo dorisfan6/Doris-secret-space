@@ -38,7 +38,7 @@ export function About() {
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
+    <section ref={ref} className="relative py-16 md:py-32 px-4 md:px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
       {/* Depth of field background blur */}
       <div className="absolute inset-0 backdrop-blur-[2px] -z-10" />
       
@@ -73,7 +73,7 @@ export function About() {
           className="mb-20 text-center"
         >
           <span className="text-stone-700 tracking-wider uppercase text-sm bg-white/40 backdrop-blur-sm px-5 py-2 rounded-full border border-stone-300/50 shadow-sm inline-block" style={{ fontFamily: "'Caveat', cursive", fontSize: '18px' }}>About Me</span>
-          <h2 className="text-5xl md:text-6xl text-stone-900 mt-6 mb-4" style={{ fontFamily: "'Caveat', cursive" }}>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-stone-900 mt-6 mb-4" style={{ fontFamily: "'Caveat', cursive" }}>
             Crafting at the intersection of{" "}
             <span className="text-amber-800">art & technology</span>
           </h2>
@@ -146,10 +146,10 @@ export function About() {
                 }}
               />
               
-              <p className="text-stone-700 text-lg leading-relaxed mb-4 font-light" style={{ fontFamily: "'Kalam', cursive" }}>
+              <p className="text-stone-700 text-base md:text-lg leading-relaxed mb-4 font-light" style={{ fontFamily: "'Kalam', cursive" }}>
                 Creative Digital Media Specialist with a focus on <span className="text-amber-800 font-normal">video production</span>, <span className="text-amber-800 font-normal">social media strategy</span>, and <span className="text-amber-800 font-normal">data-driven content creation</span>. Currently advancing my skills in USC's M.S. in Digital Social Media program, I bring a strong foundation in producing and editing high-quality video content that captivates audiences.
               </p>
-              <p className="text-stone-600 text-lg leading-relaxed font-light" style={{ fontFamily: "'Kalam', cursive" }}>
+              <p className="text-stone-600 text-base md:text-lg leading-relaxed font-light" style={{ fontFamily: "'Kalam', cursive" }}>
                 I specialize in crafting strategic social media content that maximizes engagement, using in-depth audience analysis to guide content decisions and optimize digital storytelling for diverse platforms. My approach to digital campaigns is rooted in data insights, ensuring each piece connects with viewers while driving measurable impact.
               </p>
             </motion.div>
@@ -174,7 +174,7 @@ export function About() {
                 <Sparkles className="text-amber-600" />
                 Fun Facts
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {funFacts.map((fact, index) => {
                   const Icon = fact.icon;
                   return (

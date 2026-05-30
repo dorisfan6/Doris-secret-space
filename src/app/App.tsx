@@ -125,7 +125,7 @@ export default function App() {
               opacity: headerVisible ? 1 : 0 
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-8 left-8 z-50"
+            className="fixed top-4 left-4 md:top-8 md:left-8 z-50"
             style={{ cursor: 'none' }}
           >
             <motion.div className="relative">
@@ -157,7 +157,7 @@ export default function App() {
                 />
                 
                 <div
-                  className="text-4xl text-stone-900 relative z-10 px-5 py-3"
+                  className="text-3xl md:text-4xl text-stone-900 relative z-10 px-4 py-2 md:px-5 md:py-3"
                   style={{ fontFamily: "'Caveat', cursive" }}
                 >
                   DF
@@ -183,7 +183,7 @@ export default function App() {
               opacity: headerVisible ? 1 : 0 
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-10 right-10 z-50 flex gap-8"
+            className="fixed top-6 right-4 md:top-10 md:right-10 z-50 hidden md:flex gap-8"
             style={{ cursor: 'none' }}
           >
             {[
@@ -246,7 +246,7 @@ export default function App() {
             transition={{ delay: 1, duration: 0.6 }}
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="fixed bottom-8 right-8 w-20 h-20 rounded-full flex items-center justify-center shadow-[0_6px_24px_rgba(0,0,0,0.15)] z-40 overflow-hidden bg-transparent border-0 p-0"
+            className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-[0_6px_24px_rgba(0,0,0,0.15)] z-40 overflow-hidden bg-transparent border-0 p-0"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             style={{ cursor: 'pointer' }}
           >

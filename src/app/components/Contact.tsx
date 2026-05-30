@@ -15,7 +15,7 @@ export function Contact() {
   const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
+    <section ref={ref} className="relative py-16 md:py-32 px-4 md:px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
       {/* Depth of field background blur */}
       <div className="absolute inset-0 backdrop-blur-[2px] -z-10" />
       
@@ -72,10 +72,10 @@ export function Contact() {
             <Sparkles className="text-amber-700 w-5 h-5" />
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl text-stone-900 mb-6" style={{ fontFamily: "'Caveat', cursive" }}>
+          <h2 className="text-4xl md:text-5xl lg:text-7xl text-stone-900 mb-6" style={{ fontFamily: "'Caveat', cursive" }}>
             Got an idea?
           </h2>
-          <p className="text-2xl md:text-3xl text-amber-800" style={{ fontFamily: "'Kalam', cursive" }}>
+          <p className="text-xl md:text-2xl lg:text-3xl text-amber-800" style={{ fontFamily: "'Kalam', cursive" }}>
             Let's create something meaningful together
           </p>
         </motion.div>
@@ -93,8 +93,8 @@ export function Contact() {
             className="absolute -inset-4 bg-amber-200/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
           />
 
-          <div 
-            className="relative bg-white p-12 border-2 border-stone-300 shadow-[8px_8px_0px_rgba(0,0,0,0.1),14px_14px_0px_rgba(245,158,11,0.08)]"
+          <div
+            className="relative bg-white p-6 md:p-12 border-2 border-stone-300 shadow-[8px_8px_0px_rgba(0,0,0,0.1),14px_14px_0px_rgba(245,158,11,0.08)]"
             style={{
               clipPath: "polygon(1% 0%, 98% 0%, 100% 2%, 100% 97%, 98% 100%, 3% 100%, 0% 98%, 0% 2%)",
             }}
@@ -115,7 +115,7 @@ export function Contact() {
               }}
             />
 
-            <p className="text-stone-700 text-xl mb-8 text-center leading-relaxed font-light relative z-10" style={{ fontFamily: "'Kalam', cursive" }}>
+            <p className="text-stone-700 text-base md:text-xl mb-8 text-center leading-relaxed font-light relative z-10" style={{ fontFamily: "'Kalam', cursive" }}>
               Whether you want to collaborate on a project, discuss design, or simply say hello —{" "}
               <span className="text-amber-800 font-normal">I'm always up for meaningful conversations</span>.
             </p>
@@ -167,7 +167,7 @@ export function Contact() {
             </div>
 
             {/* Social links - pinned cards */}
-            <div className="grid grid-cols-3 gap-4 relative z-10">{socialLinks.map((social, index) => {
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">{socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
                   <motion.a

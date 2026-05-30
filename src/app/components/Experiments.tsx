@@ -123,7 +123,7 @@ export function Experiments() {
   const [activeExperiment, setActiveExperiment] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
+    <section ref={ref} className="relative py-16 md:py-32 px-4 md:px-8 bg-transparent overflow-hidden" style={{ position: 'relative' }}>
       {/* Depth of field background blur */}
       <div className="absolute inset-0 backdrop-blur-[2px] -z-10" />
       
@@ -154,11 +154,11 @@ export function Experiments() {
           className="mb-20 text-center"
         >
           <span className="text-stone-700 tracking-wider uppercase text-sm bg-white/40 backdrop-blur-sm px-5 py-2 rounded-full border border-stone-300/50 shadow-sm inline-block" style={{ fontFamily: "'Caveat', cursive", fontSize: '18px' }}>Portfolio</span>
-          <h2 className="text-5xl md:text-6xl text-stone-900 mt-6 mb-4" style={{ fontFamily: "'Caveat', cursive" }}>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-stone-900 mt-6 mb-4" style={{ fontFamily: "'Caveat', cursive" }}>
             Experiments &{" "}
             <span className="text-amber-800">explorations</span>
           </h2>
-          <p className="text-stone-600 text-xl max-w-2xl mx-auto" style={{ fontFamily: "'Kalam', cursive" }}>
+          <p className="text-stone-600 text-lg md:text-xl max-w-2xl mx-auto" style={{ fontFamily: "'Kalam', cursive" }}>
             The space where ideas get curious and interactions get interesting
           </p>
         </motion.div>

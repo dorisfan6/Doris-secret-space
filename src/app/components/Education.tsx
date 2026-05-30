@@ -111,7 +111,7 @@ export function Education() {
     <section
       id="education"
       ref={containerRef}
-      className="relative min-h-screen py-32 px-8 overflow-hidden"
+      className="relative min-h-screen py-16 md:py-32 px-4 md:px-8 overflow-hidden"
       style={{ position: 'relative' }}
     >
       {/* Animated background elements */}
@@ -140,7 +140,7 @@ export function Education() {
             transition={{ duration: 0.8 }}
           >
             <motion.h2
-              className="text-7xl md:text-8xl text-stone-900 mb-6 relative inline-block"
+              className="text-4xl md:text-7xl lg:text-8xl text-stone-900 mb-6 relative inline-block"
               style={{ fontFamily: "'Caveat', cursive" }}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -156,7 +156,7 @@ export function Education() {
               />
             </motion.h2>
             <motion.p
-              className="text-2xl text-stone-600 mt-8"
+              className="text-lg md:text-2xl text-stone-600 mt-8"
               style={{ fontFamily: "'Kalam', cursive" }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -221,10 +221,10 @@ export function Education() {
               onDragStart={() => setIsDragging(true)}
               onDragEnd={() => setIsDragging(false)}
               whileTap={{ cursor: "grabbing" }}
-              style={{ x: -200 }} // Start slightly offset
+              style={{ x: 0 }} // Start centered on mobile
             >
               {/* Film Strip Container */}
-              <div className="relative inline-flex items-center justify-center gap-8 px-20">
+              <div className="relative inline-flex items-center justify-center gap-4 md:gap-8 px-4 md:px-20">
                 {/* Continuous film strip elements */}
                 <motion.div
                   className="absolute top-0 left-0 right-0 h-3 bg-black opacity-40"
@@ -278,7 +278,7 @@ export function Education() {
                     >
                       {/* Film Frame */}
                       <div
-                        className={`relative ${isSummer ? 'w-[320px] h-[480px]' : 'w-[380px] h-[520px]'} overflow-hidden rounded-lg shadow-2xl`}
+                        className={`relative ${isSummer ? 'w-[280px] h-[420px] md:w-[320px] md:h-[480px]' : 'w-[300px] h-[440px] md:w-[380px] md:h-[520px]'} overflow-hidden rounded-lg shadow-2xl`}
                         style={{
                           background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
                           boxShadow: isActive 
@@ -364,8 +364,8 @@ export function Education() {
                               ease: "easeInOut"
                             }}
                           >
-                            <motion.div 
-                              className="text-6xl font-light tracking-wider relative"
+                            <motion.div
+                              className="text-4xl md:text-6xl font-light tracking-wider relative"
                               style={{ 
                                 fontFamily: "'Caveat', cursive",
                                 color: item.color,
@@ -395,7 +395,7 @@ export function Education() {
                           {/* School name with reveal effect */}
                           <motion.div className="mb-6 overflow-hidden">
                             <motion.h3
-                              className={`${isSummer ? 'text-3xl' : 'text-4xl'} text-stone-100 leading-tight font-medium`}
+                              className={`${isSummer ? 'text-2xl md:text-3xl' : 'text-2xl md:text-4xl'} text-stone-100 leading-tight font-medium`}
                               style={{ fontFamily: "'Caveat', cursive" }}
                               animate={{
                                 color: isActive ? '#fafaf9' : '#e7e5e4',
@@ -408,7 +408,7 @@ export function Education() {
 
                           {/* Degree */}
                           <div
-                            className={`${isSummer ? 'text-base' : 'text-lg'} text-stone-400 mb-3`}
+                            className={`${isSummer ? 'text-sm md:text-base' : 'text-base md:text-lg'} text-stone-400 mb-3`}
                             style={{ fontFamily: "'Kalam', cursive" }}
                           >
                             {item.degree}
@@ -505,7 +505,7 @@ export function Education() {
           {/* Expanded Detail - Film Archive Style */}
           {selectedItem && (
             <motion.div
-              className="mt-16 max-w-5xl mx-auto"
+              className="mt-8 md:mt-16 max-w-5xl mx-auto"
               initial={{ opacity: 0, y: 60, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 60, scale: 0.9 }}
@@ -554,7 +554,7 @@ export function Education() {
                 </div>
 
                 {/* Content */}
-                <div className="pl-20 pr-12 py-12">
+                <div className="pl-8 md:pl-20 pr-6 md:pr-12 py-8 md:py-12">
                   {/* Header */}
                   <div className="flex justify-between items-start mb-10">
                     <div className="flex-1">
@@ -571,13 +571,13 @@ export function Education() {
 
                       {/* Year - Large and dramatic */}
                       <motion.div
-                        className="flex items-baseline gap-6 mb-6"
+                        className="flex items-baseline gap-3 md:gap-6 mb-6"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.3, type: "spring" }}
                       >
-                        <div 
-                          className="text-8xl font-light"
+                        <div
+                          className="text-5xl md:text-8xl font-light"
                           style={{ 
                             fontFamily: "'Caveat', cursive",
                             color: selectedItem.color,
@@ -595,8 +595,8 @@ export function Education() {
                             >
                               →
                             </motion.div>
-                            <div 
-                              className="text-8xl font-light"
+                            <div
+                              className="text-5xl md:text-8xl font-light"
                               style={{ 
                                 fontFamily: "'Caveat', cursive",
                                 color: selectedItem.color,
@@ -616,13 +616,13 @@ export function Education() {
                         transition={{ delay: 0.4 }}
                       >
                         <h3
-                          className="text-5xl text-stone-100 mb-3 leading-tight"
+                          className="text-3xl md:text-5xl text-stone-100 mb-3 leading-tight"
                           style={{ fontFamily: "'Caveat', cursive" }}
                         >
                           {selectedItem.school}
                         </h3>
                         <p
-                          className="text-2xl text-stone-400 mb-4"
+                          className="text-lg md:text-2xl text-stone-400 mb-4"
                           style={{ fontFamily: "'Kalam', cursive" }}
                         >
                           {selectedItem.degree}
